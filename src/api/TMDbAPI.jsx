@@ -1,0 +1,10 @@
+import * as axios from 'axios'
+
+const apiKey = 'b3ce68707f91bff40f7a33979b7852ef'
+const  baseURL = 'https://api.themoviedb.org/3/'
+
+export const getPopularMovies = (page=1, language='en-US') => {
+    return axios.get(`${baseURL}movie/popular?api_key=${apiKey}&language=${language}&page=${page}`).then(res => res)
+
+}
+
