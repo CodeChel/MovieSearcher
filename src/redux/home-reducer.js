@@ -8,11 +8,11 @@ export const SET_CURRENT_PAGE = 'home-reducer/SET_CURRENT_PAGE'
 const initialState = {
     movies: [],
     isFetching: false,
-    totalPage: 1,
-    currentPages: 1
+    totalPages: 1,
+    currentPage: 1
 }
 
- export const homeReducer = (state = initialState, action) => {
+  const homeReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SET_MOVIES:

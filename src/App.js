@@ -7,11 +7,17 @@ import { withRouter, HashRouter, Route, Redirect } from 'react-router-dom'
 import store from './redux/redux-store'
 import { compose } from 'redux'
 import Header from './components/Header/Header'
+import { Switch } from 'react-router'
+import Home from './components/Home/Home.jsx'
 
 const App = () => {
   return (
-    
+    <>
     <Header/>
+    <Switch>
+      <Route path='/' render={()=> <Home/>} />
+    </Switch> 
+    </>
   )
 }
 
