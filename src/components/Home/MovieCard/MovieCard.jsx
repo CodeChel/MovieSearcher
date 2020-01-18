@@ -8,11 +8,11 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import styles from './MovieCard.module.scss'
-
+import TextTruncate from '../../common/TextTruncate'
 
 
 const MovieCard = ({ movie }) => {
-
+    debugger
     return <Card className={styles.card}>
 
         <CardMedia
@@ -24,11 +24,13 @@ const MovieCard = ({ movie }) => {
             <Typography gutterBottom variant="h5" component="h2">
                 {movie.original_title}
             </Typography>
-            <Typography component="p">{movie.overview}</Typography>
+            <Typography component="p">
+                <TextTruncate text={movie.overview} numberCut={300} />
+            </Typography>
         </CardContent>
         <Button variant="contained" size="small" color="primary">
             Add to Favorites
-            </Button>
+        </Button>
 
     </Card>
 }
