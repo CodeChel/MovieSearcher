@@ -5,7 +5,16 @@
 .card{
     max-width: 350px;
     margin: 10px;
+    padding-bottom: 20px;
 }
 .content{
     height: 300px;
+    
+}
+.button{
+    margin-bottom: 100px;
+    margin-left: 40px;
+}
+.cardActions{
+    justify-content: space-around;
 }
