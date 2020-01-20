@@ -6,7 +6,7 @@ export const SET_FETCHING = 'movie-reducer/SET_FETCHING'
 
 const initialState = {
     movie: null,
-    isFetching: false
+    isFetching: true
 }
 
  export const movieReducer = (state = initialState, action) => {
@@ -32,9 +32,12 @@ export const setFetching = (isFetching) => ({type: SET_FETCHING, payload: {isFet
 
 export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     dispatch(setFetching(true))
+    
     const response = await getMovie(movieId, language)
+    
     if(response.status === 200) {
-        dispatch(setMovie(response.data.results))
+        dispatch(setMovie(response.data))
+        console.log(response.data)
         dispatch(setFetching(false))
     }
  }

@@ -9,6 +9,6 @@ export const getPopularMovies = (page=1, language='en-US') => {
 }
 
 export const getMovie = (movieId, language='en-US') => {
-    return axios.get(`${baseURL}movie/popular?api_key=${apiKey}&language=${language}&movie_id=${movieId}`).then(res => res)
+    return axios.get(`${baseURL}movie/${movieId}?api_key=${apiKey}&language=${language}`).then(res => res)
 
 }

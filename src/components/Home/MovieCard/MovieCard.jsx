@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import styles from './MovieCard.module.scss'
 import TextTruncate from '../../common/TextTruncate'
-
+import {NavLink} from 'react-router-dom'
 
 const MovieCard = ({ movie }) => {
-    debugger
+    
     return <Card className={styles.card}>
 
         <CardMedia
@@ -31,8 +31,9 @@ const MovieCard = ({ movie }) => {
                 Add to Favorites
             </Button>
             <Button className={styles.button} variant="contained" size="small" color="secondary">
-                Show details
+               <NavLink to={`/film/${movie.id}`}>Show details</NavLink> 
             </Button>
+           
         </CardActions>
     </Card>
 }

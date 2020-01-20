@@ -82,10 +82,7 @@ describe('auth async actions ', () => {
 
         const store = mockStore({})
         const response = {
-            data:{
-                results: [1,2,3]
-
-            },
+            data: 1,
             status: 200,
         }
         
@@ -99,7 +96,7 @@ describe('auth async actions ', () => {
             },
             {
                 type: movieR.SET_MOVIE,
-                payload: {movie: response.data.results }
+                payload: {movie: response.data }
             },
             {
                 type: movieR.SET_FETCHING,
