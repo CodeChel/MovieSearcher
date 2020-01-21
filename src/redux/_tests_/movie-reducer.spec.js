@@ -7,7 +7,7 @@ import {getMovie} from '../../api/TMDbAPI'
 
 const initialState = {
     movie: null,
-    isFetching: false
+    isFetching: true
 }
 
 
@@ -39,6 +39,20 @@ describe('Movie app reducer', ()=>{
         expect(movieR.movieReducer(initialState, action)).toEqual({
             ...initialState,
             isFetching: isFetching
+        })
+    })
+    it('RESET should reset state', () => {
+ 
+        const action = {
+            type: movieR.RESET
+        }
+        const prevState = {
+
+        }
+
+
+        expect(movieR.movieReducer(prevState, action)).toEqual({
+            ...initialState
         })
     })
 })

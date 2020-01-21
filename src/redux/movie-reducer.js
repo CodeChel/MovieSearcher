@@ -2,7 +2,7 @@ import {getMovie} from '../api/TMDbAPI'
 
 export const SET_MOVIE = 'movie-reducer/SET_MOVIE'
 export const SET_FETCHING = 'movie-reducer/SET_FETCHING'
-
+export const RESET = 'movie-reducer/RESET'
 
 const initialState = {
     movie: null,
@@ -21,7 +21,9 @@ const initialState = {
                 return {
                     ...state,
                     isFetching: action.payload.isFetching
-                }       
+                }
+            case  RESET:
+                return initialState
         default: return state;
 
     }
@@ -29,6 +31,7 @@ const initialState = {
 }
 export const setMovie = (movie) => ({type: SET_MOVIE, payload: {movie}})
 export const setFetching = (isFetching) => ({type: SET_FETCHING, payload: {isFetching}})
+export const resetState = () => ({type: RESET})
 
 export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     dispatch(setFetching(true))

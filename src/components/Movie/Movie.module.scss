@@ -1,0 +1,28 @@
+.poster{
+    height: 513px;
+    width: 342px;
+}
+.container{
+    margin-top: 20px;
+    display: flex;
+   
+}
+.detiles{
+    margin-left: 50px;
+}
+.overview{
+    margin-top: 20px;
+    font-size: 16px;
+}
+.tagline{
+    font-style: italic;
+}
+.table{
+    th{
+        font-weight: 700;
+        font-size: 16px;
+    }
+    td{
+        font-size: 16px;
+    }
+}
