@@ -1,12 +1,14 @@
-import {getMovie} from '../api/TMDbAPI'
+import {getMovie, getSimilarMovie} from '../api/TMDbAPI'
 
 export const SET_MOVIE = 'movie-reducer/SET_MOVIE'
 export const SET_FETCHING = 'movie-reducer/SET_FETCHING'
 export const RESET = 'movie-reducer/RESET'
+export const SET_SIMILAR_MOVIES = 'movie-reducer/SET_SIMILAR_MOVIES'
 
 const initialState = {
     movie: null,
-    isFetching: true
+    isFetching: true,
+    similarMovie: []
 }
 
  export const movieReducer = (state = initialState, action) => {
@@ -22,6 +24,11 @@ const initialState = {
                     ...state,
                     isFetching: action.payload.isFetching
                 }
+            case SET_SIMILAR_MOVIES:
+                return{
+                    ...state,
+                    similarMovie: action.payload.movies
+                }    
             case  RESET:
                 return initialState
         default: return state;
@@ -32,6 +39,7 @@ const initialState = {
 export const setMovie = (movie) => ({type: SET_MOVIE, payload: {movie}})
 export const setFetching = (isFetching) => ({type: SET_FETCHING, payload: {isFetching}})
 export const resetState = () => ({type: RESET})
+export const setSimilarMovie = (movies) => ({type: SET_SIMILAR_MOVIES, payload: {movies}})
 
 export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     dispatch(setFetching(true))
@@ -43,7 +51,19 @@ export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
         console.log(response.data)
         dispatch(setFetching(false))
     }
- }
 
+ }
+ export const setSimMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
+    dispatch(setFetching(true))
+    
+    const response = await getSimilarMovie(movieId, language)
+    
+    if(response.status === 200) {
+        dispatch(setSimilarMovie(response.data.results))
+        console.log(response.data)
+        dispatch(setFetching(false))
+    }
+
+ }
 
 export default movieReducer

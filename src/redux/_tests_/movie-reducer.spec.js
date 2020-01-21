@@ -3,11 +3,12 @@ import * as movieR from '../movie-reducer'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import expect from 'expect'
-import {getMovie} from '../../api/TMDbAPI'
+import {getMovie, getSimilarMovie} from '../../api/TMDbAPI'
 
 const initialState = {
     movie: null,
-    isFetching: true
+    isFetching: true,
+    similarMovie: []
 }
 
 
@@ -55,6 +56,20 @@ describe('Movie app reducer', ()=>{
             ...initialState
         })
     })
+
+    it('SET_SIMILAR_MOVIES should set correct data in state', () => {
+        const data = [1,2,3] 
+        const action = {
+            type: movieR.SET_SIMILAR_MOVIES,
+            payload: {movies: data}
+        }
+       
+
+        expect(movieR.movieReducer(initialState, action)).toEqual({
+            ...initialState,
+            similarMovie: data
+        })
+    })
 })
 
 describe('actions creators', () => {
@@ -72,7 +87,7 @@ describe('actions creators', () => {
 
         expect(movieR.setMovie(movie)).toEqual(expectedAction)
     })
-    it('SET_FETCHING: should create action with data', () => {
+    it('setFetching should create action with data', () => {
 
         const isFetching = true
         const expectedAction =
@@ -83,6 +98,29 @@ describe('actions creators', () => {
 
 
         expect(movieR.setFetching(isFetching)).toEqual(expectedAction)
+    })
+    it('resetState should create correct action', () => {
+
+        const expectedAction =
+        {
+            type: movieR.RESET,
+        }
+
+
+        expect(movieR.resetState()).toEqual(expectedAction)
+    })
+
+    it('setSimilarMovies should create correct action with data', () => {
+
+        const movies = [1,2,3]
+        const expectedAction =
+        {
+            type: movieR.SET_SIMILAR_MOVIES,
+            payload: { movies }
+        }
+
+
+        expect(movieR.setSimilarMovie(movies)).toEqual(expectedAction)
     })
 
 })
@@ -119,6 +157,38 @@ describe('auth async actions ', () => {
         ]
         const storeActions = store.getActions()
         await store.dispatch(movieR.setMovieThunk())
+        expect(storeActions).toEqual(expectedActions)
+      
+    })
+    it('setSimMovieThunk async thunk should dispatch async actions', async () => {
+
+        const store = mockStore({})
+        const response = {
+            data: {
+                results: [1,2,3]
+            },
+            status: 200,
+        }
+        
+        getSimilarMovie.mockResolvedValueOnce(response)
+ 
+
+        const expectedActions = [
+            {
+                type: movieR.SET_FETCHING,
+                payload: {isFetching: true}
+            },
+            {
+                type: movieR.SET_SIMILAR_MOVIES,
+                payload: {movies: response.data.results }
+            },
+            {
+                type: movieR.SET_FETCHING,
+                payload: {isFetching: false}
+            }
+        ]
+        const storeActions = store.getActions()
+        await store.dispatch(movieR.setSimMovieThunk())
         expect(storeActions).toEqual(expectedActions)
       
     })
