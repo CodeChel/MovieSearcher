@@ -5,3 +5,7 @@ export const getMovie = (state) => {
 export const getIsFetching = (state) => {
     return state.moviePage.isFetching
 }
+
+export const getSM = (state) => {
+    return state.moviePage.similarMovies
+}

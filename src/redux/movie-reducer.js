@@ -8,7 +8,7 @@ export const SET_SIMILAR_MOVIES = 'movie-reducer/SET_SIMILAR_MOVIES'
 const initialState = {
     movie: null,
     isFetching: true,
-    similarMovie: []
+    similarMovies: []
 }
 
  export const movieReducer = (state = initialState, action) => {
@@ -27,7 +27,7 @@ const initialState = {
             case SET_SIMILAR_MOVIES:
                 return{
                     ...state,
-                    similarMovie: action.payload.movies
+                    similarMovies: action.payload.movies
                 }    
             case  RESET:
                 return initialState
@@ -49,21 +49,16 @@ export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     if(response.status === 200) {
         dispatch(setMovie(response.data))
         console.log(response.data)
+        const responseSimilar = await getSimilarMovie(movieId, language)
+
+        if(responseSimilar.status === 200) {
+            dispatch(setSimilarMovie(responseSimilar.data.results))
+            console.log(responseSimilar.data)
+        }
         dispatch(setFetching(false))
     }
 
  }
- export const setSimMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
-    dispatch(setFetching(true))
-    
-    const response = await getSimilarMovie(movieId, language)
-    
-    if(response.status === 200) {
-        dispatch(setSimilarMovie(response.data.results))
-        console.log(response.data)
-        dispatch(setFetching(false))
-    }
 
- }
 
 export default movieReducer

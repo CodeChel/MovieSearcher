@@ -8,7 +8,7 @@ import {getMovie, getSimilarMovie} from '../../api/TMDbAPI'
 const initialState = {
     movie: null,
     isFetching: true,
-    similarMovie: []
+    similarMovies: []
 }
 
 
@@ -67,7 +67,7 @@ describe('Movie app reducer', ()=>{
 
         expect(movieR.movieReducer(initialState, action)).toEqual({
             ...initialState,
-            similarMovie: data
+            similarMovies: data
         })
     })
 })
@@ -137,8 +137,15 @@ describe('auth async actions ', () => {
             data: 1,
             status: 200,
         }
-        
-        getMovie.mockResolvedValueOnce(response)
+        const responseSimilar = {
+                  data: {
+                        results: [1,2,3]
+                  },
+              status: 200,
+           }
+                
+      getSimilarMovie.mockResolvedValueOnce(responseSimilar)
+      getMovie.mockResolvedValueOnce(response)
  
 
         const expectedActions = [
@@ -151,6 +158,10 @@ describe('auth async actions ', () => {
                 payload: {movie: response.data }
             },
             {
+                type: movieR.SET_SIMILAR_MOVIES,
+                payload: {movies: responseSimilar.data.results }
+            },
+            {
                 type: movieR.SET_FETCHING,
                 payload: {isFetching: false}
             }
@@ -160,36 +171,5 @@ describe('auth async actions ', () => {
         expect(storeActions).toEqual(expectedActions)
       
     })
-    it('setSimMovieThunk async thunk should dispatch async actions', async () => {
-
-        const store = mockStore({})
-        const response = {
-            data: {
-                results: [1,2,3]
-            },
-            status: 200,
-        }
-        
-        getSimilarMovie.mockResolvedValueOnce(response)
  
-
-        const expectedActions = [
-            {
-                type: movieR.SET_FETCHING,
-                payload: {isFetching: true}
-            },
-            {
-                type: movieR.SET_SIMILAR_MOVIES,
-                payload: {movies: response.data.results }
-            },
-            {
-                type: movieR.SET_FETCHING,
-                payload: {isFetching: false}
-            }
-        ]
-        const storeActions = store.getActions()
-        await store.dispatch(movieR.setSimMovieThunk())
-        expect(storeActions).toEqual(expectedActions)
-      
-    })
 })

@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import Preloader from '../common/Preloader'
 import styles from './Movie.module.scss'
 import { setMovieThunk, resetState } from '../../redux/movie-reducer'
-import { getMovie, getIsFetching } from '../../redux/movie-selector'
+import { getMovie, getIsFetching, getSM } from '../../redux/movie-selector'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Container from '@material-ui/core/Container'
 import TableDescription from './TableDescription'
+import MovieCard from '../Home/MovieCard/MovieCard'
+import Carousel from 'react-material-ui-carousel'
 
-const Movie = ({ movie, isFetching, setMovieThunk, resetState, ...props }) => {
+const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
 
     useEffect(() => {
         setMovieThunk(props.match.params.filmId)
@@ -19,16 +21,33 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, ...props }) => {
     }, [setMovieThunk, props.match.params.filmId, resetState])
     return isFetching
         ? <Preloader />
-        : <Container className={styles.container} maxWidth="lg">
-            <img className={styles.poster}
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' />
-            <div className={styles.detiles}>
-                <h1>{movie.title}</h1>
-                <TableDescription movie={movie} />
-                <div className={styles.overview}>
-                    {movie.overview}
+        : <Container maxWidth="lg">
+            <div className={styles.container}>
+                <img className={styles.poster}
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' />
+                <div className={styles.detiles}>
+                    <h1>{movie.title}</h1>
+                    <TableDescription movie={movie} />
+                    <div className={styles.overview}>
+                        {movie.overview}
+                    </div>
                 </div>
             </div>
+            {similarMovies.length > 0 &&
+                <div className={styles.container}>
+                    Similar Movies:
+                    <Carousel>
+                        {similarMovies.map((movie, index) => {
+                            
+                            if(index % 2 === 0)    return  <div className={styles.carouserlContainer}> 
+                                <MovieCard movie={similarMovies[index]} key={movie.id} />
+                                <MovieCard movie={similarMovies[index+1]} key={movie.id} />
+                            </div>
+                    
+                        })}
+                    </Carousel>
+                </div>
+            }
         </Container>
 }
 
@@ -37,7 +56,8 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, ...props }) => {
 
 const mapStateToProps = (state) => ({
     movie: getMovie(state),
-    isFetching: getIsFetching(state)
+    isFetching: getIsFetching(state),
+    similarMovies: getSM(state)
 })
 
 export default compose(
