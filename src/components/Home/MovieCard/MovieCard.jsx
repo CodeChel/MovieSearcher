@@ -5,11 +5,10 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import styles from './MovieCard.module.scss'
 import TextTruncate from '../../common/TextTruncate'
 import {NavLink} from 'react-router-dom'
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, styles }) => {
     
     return <Card className={styles.card}>
 

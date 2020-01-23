@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container'
 import TableDescription from './TableDescription'
 import MovieCard from '../Home/MovieCard/MovieCard'
 import Carousel from 'react-material-ui-carousel'
+import SimilarMovieCard from './SimilarMovieCard'
 
 const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
 
@@ -38,12 +39,7 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk,
                     Similar Movies:
                     <Carousel>
                         {similarMovies.map((movie, index) => {
-                            
-                            if(index % 2 === 0)    return  <div className={styles.carouserlContainer}> 
-                                <MovieCard movie={similarMovies[index]} key={movie.id} />
-                                <MovieCard movie={similarMovies[index+1]} key={movie.id} />
-                            </div>
-                    
+                               return <SimilarMovieCard styles={styles} movie={movie} key={movie.id} />
                         })}
                     </Carousel>
                 </div>

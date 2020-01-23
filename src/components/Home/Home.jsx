@@ -14,7 +14,7 @@ const Home = ({ movies, isFetching, totalPages, currentPage, setMoviesThunk }) =
     return isFetching
         ? <Preloader />
         : <div className={styles.container}>
-            {movies.map((movie, index) => <MovieCard key={index} movie={movie} />)}
+            {movies.map((movie, index) => <MovieCard styles={styles} key={index} movie={movie} />)}
         </div>
 
 }
