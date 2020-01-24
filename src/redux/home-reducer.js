@@ -18,7 +18,7 @@ const initialState = {
         case SET_MOVIES:
             return {
                 ...state,
-                movies: action.payload.movies
+                movies: [...state.movies, ...action.payload.movies]
             }
         case SET_FETCHING:
             return {
