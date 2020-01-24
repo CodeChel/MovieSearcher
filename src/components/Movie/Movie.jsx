@@ -11,6 +11,7 @@ import TableDescription from './TableDescription'
 import MovieCard from '../Home/MovieCard/MovieCard'
 import Carousel from 'react-material-ui-carousel'
 import SimilarMovieCard from './SimilarMovieCard'
+import { Typography, Button } from '@material-ui/core'
 
 const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
 
@@ -24,27 +25,38 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk,
         ? <Preloader />
         : <Container maxWidth="lg">
             <div className={styles.container}>
-                <img className={styles.poster}
-                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' />
-                <div className={styles.detiles}>
-                    <h1>{movie.title}</h1>
+                <div className={styles.poster}>
+                    <img 
+                        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' />
+                    <Button fullWidth={true}
+                     variant="contained" size="large" color="primary">Add to Favorites</Button>
+                </div>
+                <div className={styles.details}>
+                    <Typography variant="h4" gutterBottom component="h4">
+                        {movie.title}
+                     </Typography>
                     <TableDescription movie={movie} />
                     <div className={styles.overview}>
-                        {movie.overview}
+                        <Typography  gutterBottom variant="body1">
+                            {movie.overview}
+                        </Typography>
                     </div>
                 </div>
             </div>
             {similarMovies.length > 0 &&
-                <div className={styles.container}>
-                    Similar Movies:
-                    <Carousel>
-                        {similarMovies.map((movie, index) => {
-                               return <SimilarMovieCard styles={styles} movie={movie} key={movie.id} />
+                <div className={styles.containerSimilar}>
+                    <Typography variant="h4" gutterBottom component="h4">
+                        Similar Movies
+                     </Typography>
+                    <div className={styles.movieList}>
+
+                        {similarMovies.slice(0, 10).map((movie, index) => {
+                            return <SimilarMovieCard styles={styles} movie={movie} key={movie.id} />
                         })}
-                    </Carousel>
+                    </div>
                 </div>
             }
-        </Container>
+        </Container >
 }
 
 

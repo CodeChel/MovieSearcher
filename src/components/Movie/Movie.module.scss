@@ -1,12 +1,16 @@
 .poster{
-    height: 513px;
-    width: 342px;
+    max-width: 342px;
+    img{
+        height: 513px;
+        width: 342px;
+        margin-bottom: 10px;
+    }
 }
 .container{
     margin-top: 20px;
     display: flex;
 }
-.detiles{
+.details{
     margin-left: 50px;
 }
 .overview{
@@ -33,19 +37,46 @@
 }
 
 
+
+.movieList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.containerSimilar{
+    margin-top: 40px;
+}
 .media{
-    max-width: 100%;
-    height: 300px;
+    width: 100%;
+    height: 100%;
 }
 .card{
-    max-width: 250px;
+    width: 220px;
+    height: 350px;
     margin: 10px;
-    padding-bottom: 20px;
     position: relative;
+    
+}
+.actionArea{
+    height: 100%;
+    width: 100%;
 }
 .content{
-    height: 300px;
-    
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    background-color: #4D4D55;
+    height: 100%;
+    opacity: 0;
+    transition: .4s;
+}
+.card:hover{
+    .content{
+        opacity: .99;
+        color: #fff;
+        
+    }
 }
 .button{
     margin-bottom: 100px;
@@ -57,16 +88,4 @@
 }
 .cardActions{
     justify-content: space-around;
-}
-.cardContent{
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: black;
-}
-.card:hover .cardContent{
-    display: block;
 }

@@ -15,7 +15,7 @@ const MovieCard = ({ movie, styles }) => {
         <CardMedia
             className={styles.media}
             image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            title="Poster"
+            title={movie.title}
         />
         <CardContent className={styles.content}>
             <Typography gutterBottom variant="h5" component="h2">
