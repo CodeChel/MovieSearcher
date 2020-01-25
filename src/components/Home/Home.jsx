@@ -7,7 +7,7 @@ import Preloader from '../common/Preloader'
 import styles from './Home.module.scss'
 
 const Home = ({ movies, isFetching, totalPages, currentPage, setMoviesThunk }) => {
-
+   
     useEffect(() => {
         if (movies.length === 0) setMoviesThunk()
     }, [movies, setMoviesThunk])

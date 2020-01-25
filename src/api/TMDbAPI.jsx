@@ -17,3 +17,9 @@ export const getSimilarMovie = (movieId, language='en-US') => {
     return axios.get(`${baseURL}movie/${movieId}/similar?api_key=${apiKey}&language=${language}`).then(res => res)
 
 }
+
+export const getSearch= (query='', page=1, language='en-US') => {
+    return axios.get(`${baseURL}search/movie?api_key=${apiKey}&language=${language}&query=${query}&page=${page}`)
+    .then(res => res)
+
+}
