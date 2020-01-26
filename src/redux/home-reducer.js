@@ -25,7 +25,7 @@ const initialState = {
         case SET_MORE_MOVIES:
             return {
                 ...state,
-                movies: [state.movies, action.payload.movies]
+                movies: [...state.movies, ...action.payload.movies]
             }    
         case SET_FETCHING:
             return {
@@ -48,7 +48,7 @@ const initialState = {
 
 }
 export const setMovies = (movies) => ({type: SET_MOVIES, payload: {movies}})
-export const setMoreMovies = (movies) => ({type: SET_MOVIES, payload: {movies}})
+export const setMoreMovies = (movies) => ({type: SET_MORE_MOVIES, payload: {movies}})
 
 export const setFetching = (isFetching) => ({type: SET_FETCHING, payload: {isFetching}})
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, payload: {currentPage}})
