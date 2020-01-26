@@ -1,6 +1,8 @@
 import {getPopularMovies} from '../api/TMDbAPI'
 
 export const SET_MOVIES = 'home-reducer/SET_MOVIES'
+export const SET_MORE_MOVIES = 'home-reducer/SET_MORE_MOVIES'
+
 export const SET_FETCHING = 'home-reducer/SET_FETCHING'
 export const SET_TOTAL_PAGES = 'home-reducer/SET_TOTAL_PAGE'
 export const SET_CURRENT_PAGE = 'home-reducer/SET_CURRENT_PAGE'
@@ -20,6 +22,11 @@ const initialState = {
                 ...state,
                 movies: action.payload.movies
             }
+        case SET_MORE_MOVIES:
+            return {
+                ...state,
+                movies: [state.movies, action.payload.movies]
+            }    
         case SET_FETCHING:
             return {
                 ...state,
@@ -41,6 +48,8 @@ const initialState = {
 
 }
 export const setMovies = (movies) => ({type: SET_MOVIES, payload: {movies}})
+export const setMoreMovies = (movies) => ({type: SET_MOVIES, payload: {movies}})
+
 export const setFetching = (isFetching) => ({type: SET_FETCHING, payload: {isFetching}})
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, payload: {currentPage}})
 export const setTotalPage = (totalPages) => ({type: SET_TOTAL_PAGES, payload: {totalPages}})
@@ -50,6 +59,16 @@ export const setMoviesThunk = (page=1, language='en-US') => async(dispatch) => {
     const response = await getPopularMovies(page, language)
     if(response.status === 200){
         dispatch(setMovies(response.data.results))
+        dispatch(setCurrentPage(page))
+        dispatch(setTotalPage(response.data.total_pages))
+        dispatch(setFetching(false))
+    }
+}
+export const setMMoviesThunk = (page, language='en-US') => async(dispatch) => {
+    dispatch(setFetching(true))
+    const response = await getPopularMovies(page, language)
+    if(response.status === 200){
+        dispatch(setMoreMovies(response.data.results))
         dispatch(setCurrentPage(page))
         dispatch(setTotalPage(response.data.total_pages))
         dispatch(setFetching(false))
