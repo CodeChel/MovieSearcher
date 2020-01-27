@@ -44,7 +44,12 @@ const initialState = {
             return{
                 ...state,
                 totalPages: action.payload.totalPages
-            }             
+            }
+        case SET_TOTAL_RESULTS:
+            return{
+                ...state,
+                totalResults: action.payload.totalRes
+            }            
         default: return state;
 
     }

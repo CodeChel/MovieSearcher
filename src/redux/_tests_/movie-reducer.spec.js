@@ -70,6 +70,20 @@ describe('Movie app reducer', ()=>{
             similarMovies: data
         })
     })
+
+    it('SET_SIMILAR_MOVIES should set correct data in state', () => {
+        const data = [1,2,3] 
+        const action = {
+            type: movieR.SET_SIMILAR_MOVIES,
+            payload: {movies: data}
+        }
+       
+
+        expect(movieR.movieReducer(initialState, action)).toEqual({
+            ...initialState,
+            similarMovies: data
+        })
+    })
 })
 
 describe('actions creators', () => {

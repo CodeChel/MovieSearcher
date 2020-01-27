@@ -71,6 +71,21 @@ describe('Home app reducer', ()=>{
             totalPages: totalPages
         })
     })
+
+    it('SET_TOTAL_RESULTS set correct data in state', () => {
+        const totalRes = 2
+        const action = {
+            type: homeR.SET_TOTAL_RESULTS,
+            payload: {totalRes}
+        }
+
+
+
+        expect(homeR.homeReducer(initialState, action)).toEqual({
+            ...initialState,
+            totalResults: totalRes
+        })
+    })
 })
 describe(' actions creators', () => {
 
@@ -104,18 +119,32 @@ describe(' actions creators', () => {
 
     it('setCurrentPage: should create action', () => {
 
-        const currentPage = 1
+        const totalRes = 1
         const expectedAction =
         {
-            type: homeR.SET_CURRENT_PAGE,
-            payload: { currentPage }
+            type: homeR.SET_TOTAL_RESULTS,
+            payload: { totalRes }
         }
 
 
-        expect(homeR.setCurrentPage(currentPage)).toEqual(expectedAction)
+        expect(homeR.setTotalResults(totalRes)).toEqual(expectedAction)
 
     })
     it('setTotalPage: should create action', () => {
+
+        const totalPages = 10
+        const expectedAction =
+        {
+            type: homeR.SET_TOTAL_PAGES,
+            payload: { totalPages }
+        }
+
+
+        expect(homeR.setTotalPage(totalPages)).toEqual(expectedAction)
+
+    })
+
+    it('setTotalResults: should create action', () => {
 
         const totalPages = 10
         const expectedAction =
@@ -142,7 +171,8 @@ describe('auth async actions ', () => {
             data:{
                 page: 1,
                 total_pages: 500,
-                results: [1,2,3]
+                results: [1,2,3],
+                total_results: 100
 
             },
             status: 200,
@@ -165,6 +195,10 @@ describe('auth async actions ', () => {
                 payload: {currentPage: response.data.page }
             },
             {
+                type: homeR.SET_TOTAL_RESULTS,
+                payload: {totalRes: response.data.total_results}
+            },
+            {
                 type: homeR.SET_TOTAL_PAGES,
                 payload: {totalPages: response.data.total_pages }
             },
@@ -175,6 +209,54 @@ describe('auth async actions ', () => {
         ]
         const storeActions = store.getActions()
         await store.dispatch(homeR.setMoviesThunk())
+        expect(storeActions).toEqual(expectedActions)
+      
+    })
+
+    it('setMMoviesThunk async thunk should dispatch async actions', async () => {
+
+        const store = mockStore({})
+        const response = {
+            data:{
+                page: 2,
+                total_pages: 500,
+                results: [1,2,3],
+                total_results: 10
+            },
+            status: 200,
+        }
+        const page = 2
+        getPopularMovies.mockResolvedValueOnce(response)
+        
+
+        const expectedActions = [
+            {
+                type: homeR.SET_FETCHING,
+                payload: {isFetching: true}
+            },
+            {
+                type: homeR.SET_MORE_MOVIES,
+                payload: {movies: response.data.results }
+            },
+            {
+                type: homeR.SET_CURRENT_PAGE,
+                payload: {currentPage: response.data.page }
+            },
+            {
+                type: homeR.SET_TOTAL_RESULTS,
+                payload: {totalRes: response.data.total_results}
+            },
+            {
+                type: homeR.SET_TOTAL_PAGES,
+                payload: {totalPages: response.data.total_pages }
+            },
+            {
+                type: homeR.SET_FETCHING,
+                payload: {isFetching: false}
+            }
+        ]
+        const storeActions = store.getActions()
+        await store.dispatch(homeR.setMMoviesThunk(page))
         expect(storeActions).toEqual(expectedActions)
       
     })
