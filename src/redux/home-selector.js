@@ -11,3 +11,6 @@ export const getTotalPages = (state) => {
 export const getCurrentPage = (state) => {
     return  state.home.currentPage
 }
+export const getTotalResults = (state) => {
+    return  state.home.totalResults
+}

@@ -2,9 +2,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-
+    overflow: hidden !important;
 }
-
+.scrollContainer{
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden !important;
+    justify-content: center;
+}
 .media{
     max-width: 100%;
     height: 500px;

@@ -7,19 +7,20 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextTruncate from '../../common/TextTruncate'
 import {NavLink} from 'react-router-dom'
+import noPoster from '../../../assets/img/no-poster.png'
 
 const MovieCard = ({ movie, styles }) => {
-    
+ 
     return <Card className={styles.card}>
 
         <CardMedia
             className={styles.media}
-            image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
             title={movie.title}
         />
         <CardContent className={styles.content}>
             <Typography gutterBottom variant="h5" component="h2">
-                {movie.original_title}
+                {movie.original_title }
             </Typography>
             <Typography component="p">
                 <TextTruncate text={movie.overview} numberCut={300} />

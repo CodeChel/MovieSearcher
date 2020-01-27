@@ -8,10 +8,9 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Container from '@material-ui/core/Container'
 import TableDescription from './TableDescription'
-import MovieCard from '../Home/MovieCard/MovieCard'
-import Carousel from 'react-material-ui-carousel'
 import SimilarMovieCard from './SimilarMovieCard'
 import { Typography, Button } from '@material-ui/core'
+import noPoster from '../../assets/img/no-poster.png'
 
 const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
 
@@ -27,7 +26,8 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk,
             <div className={styles.container}>
                 <div className={styles.poster}>
                     <img 
-                        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt='poster' />
+                        src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
+                         alt='poster' />
                     <Button fullWidth={true}
                      variant="contained" size="large" color="primary">Add to Favorites</Button>
                 </div>
