@@ -30,8 +30,8 @@ const MovieCard = ({ movie, styles }) => {
             <Button className={styles.button} variant="contained" size="small" color="primary">
                 Add to Favorites
             </Button>
-            <Button className={styles.button} variant="contained" size="small" color="secondary">
-               <NavLink to={`/film/${movie.id}`}>Show details</NavLink> 
+            <Button component={NavLink}  to={`/film/${movie.id}`} className={styles.button} variant="contained" size="small" color="secondary">
+               Show details
             </Button>
            
         </CardActions>

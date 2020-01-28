@@ -14,3 +14,6 @@ export const getCurrentPage = (state) => {
 export const getTotalResults = (state) => {
     return  state.home.totalResults
 }
+export const getSearchWord = (state) => {
+    return  state.home.searchWord
+}

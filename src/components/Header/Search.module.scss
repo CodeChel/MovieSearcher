@@ -2,22 +2,19 @@
     position: relative;
     border-radius: 4px;
     margin-left: 30px;
-    
+    display: flex;
     background-color: rgba(255, 255, 255, 0.15);
     transition: .4s;
     &:hover{
         background-color: rgba(255, 255, 255, 0.25);
     }
-    
+
 }
 
 .searchIcon{
     width: 40px;
     height: 100%;
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,10 +25,25 @@
     padding-left: 40px;
 
     &:focus{ 
-
         width: 200px ;
     }
+    
 }
 .inputRoot{
     color: inherit;
+    padding-right: 40px;
+}
+.clear{
+    position: absolute;
+    right: 10px;
+
+    cursor: pointer;
+    width: 40px;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
 }

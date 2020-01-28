@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setMoviesThunk, setMMoviesThunk } from '../../redux/home-reducer'
-import { getMovies, getIsFetching, getTotalPages, getCurrentPage, getTotalResults } from '../../redux/home-selector'
+import { getMovies, getIsFetching, getTotalPages, getCurrentPage, getTotalResults, getSearchWord } from '../../redux/home-selector'
 import MovieCard from './MovieCard/MovieCard'
 import Preloader from '../common/Preloader'
 import styles from './Home.module.scss'
 import InfiniteScroll from "react-infinite-scroll-component"
 
-const Home = ({ movies, totalResults, setMMoviesThunk, totalPages, currentPage, setMoviesThunk }) => {
-  
+const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, currentPage, setMoviesThunk }) => {
+
 
     useEffect(() => {
         setMoviesThunk()
-    }, [])
+    }, [setMoviesThunk, searchWord])
     const loadMoreMovies = () => {
         setMMoviesThunk(currentPage + 1)
     }
@@ -21,7 +21,7 @@ const Home = ({ movies, totalResults, setMMoviesThunk, totalPages, currentPage, 
 
         dataLength={movies.length}
         next={loadMoreMovies}
-        hasMore={Math.ceil(totalResults/20) <= totalPages }
+        hasMore={Math.ceil(totalResults / 20) <= totalPages}
         className={styles.scrollContainer}
         loader={<Preloader size={60} />}
         scrollThreshold={0.95}
@@ -40,7 +40,8 @@ const mapStateToProps = (state) => ({
     isFetching: getIsFetching(state),
     totalPages: getTotalPages(state),
     currentPage: getCurrentPage(state),
-    totalResults: getTotalResults(state)
+    totalResults: getTotalResults(state),
+    searchWord: getSearchWord(state)
 })
 
 export default connect(mapStateToProps, {
