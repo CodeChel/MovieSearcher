@@ -28,12 +28,12 @@ const Search = ({ setSearchWord }) => {
                 input: styles.inputInput,
             }}
 
-            inputProps={{ 'aria-label': 'search', 'debounceTimeout': 200, 'minLength': 2 }}
+            inputProps={{ 'aria-label': 'search', 'debounceTimeout': 200, 'minLength': 1 }}
             value={searchWord}
             onChange={(e) => searchHandler(e.target.value)}
         />
         {searchWord.length > 0
-            && <div className={styles.clear} onClick={() => searchHandler('')}>
+            && <div className={styles.clear} onMouseDown ={() => searchHandler('')}>
                 <ClearIcon /> 
               </div>}
         </div>

@@ -8,7 +8,11 @@ const Preloader = ({ varaint = 'indeterminate', size = 48, thickness = 3.6, disa
         size={size}
         thickness={thickness}
         style={{
-            marginTop: '10px'
+            marginTop: '10px',
+            margin: ' 10px auto',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            display: 'block'
         }}
     />
 

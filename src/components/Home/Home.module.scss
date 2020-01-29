@@ -3,12 +3,12 @@
     flex-wrap: wrap;
     justify-content: space-around;
     overflow: hidden !important;
+    align-items: center;
 }
 .scrollContainer{
-    display: flex;
-    flex-wrap: wrap;
+ 
     overflow: hidden !important;
-    justify-content: center;
+
 }
 .media{
     max-width: 100%;

@@ -21,7 +21,7 @@ const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, c
 
         dataLength={movies.length}
         next={loadMoreMovies}
-        hasMore={Math.ceil(totalResults / 20) <= totalPages}
+        hasMore={totalPages > currentPage}
         className={styles.scrollContainer}
         loader={<Preloader size={60} />}
         scrollThreshold={0.95}

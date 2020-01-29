@@ -20,43 +20,47 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk,
             resetState()
         }
     }, [setMovieThunk, props.match.params.filmId, resetState])
-    return isFetching
-        ? <Preloader />
-        : <Container maxWidth="lg">
-            <div className={styles.container}>
-                <div className={styles.poster}>
-                    <img 
-                        src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
-                         alt='poster' />
-                    <Button fullWidth={true}
-                     variant="contained" size="large" color="primary">Add to Favorites</Button>
-                </div>
-                <div className={styles.details}>
-                    <Typography variant="h4" gutterBottom component="h4">
-                        {movie.title}
-                     </Typography>
-                    <TableDescription movie={movie} />
-                    <div className={styles.overview}>
-                        <Typography  gutterBottom variant="body1">
-                            {movie.overview}
+    return <Container maxWidth="lg">
+        {isFetching
+            ? <Preloader size={60} />
+            : <>
+                <div className={styles.container}>
+                    <div className={styles.poster}>
+                        <img
+                            src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
+                            alt='poster' />
+                        <Button fullWidth={true}
+                            variant="contained" size="large" color="primary">Add to Favorites</Button>
+                    </div>
+                    <div className={styles.details}>
+                        <Typography variant="h4" gutterBottom component="h4">
+                            {movie.title}
                         </Typography>
+                        <TableDescription movie={movie} />
+                        <div className={styles.overview}>
+                            <Typography gutterBottom variant="body1">
+                                {movie.overview}
+                            </Typography>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {similarMovies.length > 0 &&
-                <div className={styles.containerSimilar}>
-                    <Typography variant="h4" gutterBottom component="h4">
-                        Similar Movies
+                {similarMovies.length > 0 &&
+                    <div className={styles.containerSimilar}>
+                        <Typography variant="h4" gutterBottom component="h4">
+                            Similar Movies
                      </Typography>
-                    <div className={styles.movieList}>
+                        <div className={styles.movieList}>
 
-                        {similarMovies.slice(0, 10).map((movie, index) => {
-                            return <SimilarMovieCard styles={styles} movie={movie} key={movie.id} />
-                        })}
+                            {similarMovies.slice(0, 10).map((movie, index) => {
+                                return <SimilarMovieCard styles={styles} movie={movie} key={movie.id} />
+                            })}
+                        </div>
                     </div>
-                </div>
-            }
-        </Container >
+                }
+            </>}
+    </Container >
+
+
 }
 
 
