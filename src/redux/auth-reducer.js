@@ -1,5 +1,6 @@
 
-import { myFirebase } from "../firebase/firebase";
+import { myFirebase } from "../firebase/firebase"
+import firebase from 'firebase'
 
 export const LOGIN_REQUEST = "auth-reducer/LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "auth-reducer/LOGIN_SUCCESS";
@@ -20,7 +21,7 @@ const initialState = {
     loginError: false,
     logoutError: false,
     isAuthenticated: false,
-    user: {}
+    user: null
 }
 
 
@@ -57,7 +58,7 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 isLoggingOut: false,
                 isAuthenticated: false,
-                user: {}
+                user: null
             }
         case LOGOUT_FAILURE:
             return {
@@ -131,22 +132,27 @@ const verifySuccess = () => {
     };
 };
 
-export const loginUser = (email, password) => dispatch => {
+export const loginWithGoogle = () => dispatch => {
     dispatch(requestLogin())
-    myFirebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(user => {
-            dispatch(receiveLogin(user))
+    console.log(myFirebase)
+    const provider = new firebase.auth.GoogleAuthProvider()
+    provider.addScope('profile')
+    provider.addScope('email')
+
+    firebase.auth().signInWithPopup(provider)
+        .then(result => {
+            dispatch(receiveLogin(result.user))
+            console.log(firebase)
+
         })
         .catch(error => {
             dispatch(loginError())
         });
-};
+}
 
 export const logoutUser = () => dispatch => {
     dispatch(requestLogout())
-    myFirebase
+    firebase
         .auth()
         .signOut()
         .then(() => {
@@ -159,7 +165,7 @@ export const logoutUser = () => dispatch => {
 
 export const verifyAuth = () => dispatch => {
     dispatch(verifyRequest());
-    myFirebase
+    firebase
         .auth()
         .onAuthStateChanged(user => {
             if (user !== null) {

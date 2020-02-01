@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Button from '@material-ui/core/Button'
@@ -11,8 +11,13 @@ import { Switch } from 'react-router'
 import Home from './components/Home/Home.jsx'
 import Movie from './components/Movie/Movie'
 import { StylesProvider } from '@material-ui/core/styles'
+import {verifyAuth} from './redux/auth-reducer'
 
 const App = (props) => {
+  useEffect(()=>{
+    props.verifyAuth()
+  })
+
   return (
     <>
       <StylesProvider injectFirst>
@@ -27,15 +32,10 @@ const App = (props) => {
   )
 }
 
-const mapStateToPropse = (state) => (
-  {
-
-  }
-)
 
 const AppContainer = compose(
   withRouter,
-  connect(mapStateToPropse))(App)
+  connect(null, {verifyAuth}))(App)
 
 
 const HightApp = () => {
