@@ -11,8 +11,9 @@ import TableDescription from './TableDescription'
 import SimilarMovieCard from './SimilarMovieCard'
 import { Typography, Button } from '@material-ui/core'
 import noPoster from '../../assets/img/no-poster.png'
+import { getUser } from '../../redux/auth-selector'
 
-const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
+const Movie = ({user, movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
 
     useEffect(() => {
         setMovieThunk(props.match.params.filmId)
@@ -29,7 +30,7 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk,
                         <img
                             src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
                             alt='poster' />
-                        <Button fullWidth={true}
+                        <Button fullWidth={true} disabled={user===null}
                             variant="contained" size="large" color="primary">Add to Favorites</Button>
                     </div>
                     <div className={styles.details}>
@@ -69,7 +70,8 @@ const Movie = ({ movie, isFetching, setMovieThunk, resetState, setSimMovieThunk,
 const mapStateToProps = (state) => ({
     movie: getMovie(state),
     isFetching: getIsFetching(state),
-    similarMovies: getSM(state)
+    similarMovies: getSM(state),
+    user: getUser(state)
 })
 
 export default compose(

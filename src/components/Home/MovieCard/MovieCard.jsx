@@ -9,7 +9,7 @@ import TextTruncate from '../../common/TextTruncate'
 import {NavLink} from 'react-router-dom'
 import noPoster from '../../../assets/img/no-poster.png'
 
-const MovieCard = ({ movie, styles }) => {
+const MovieCard = ({ movie, styles, user }) => {
  
     return <Card className={styles.card}>
 
@@ -27,7 +27,7 @@ const MovieCard = ({ movie, styles }) => {
             </Typography>
         </CardContent>
         <CardActions className={styles.cardActions}>
-            <Button className={styles.button} variant="contained" size="small" color="primary">
+            <Button disabled={user===null} className={styles.button} variant="contained" size="small" color="primary">
                 Add to Favorites
             </Button>
             <Button component={NavLink}  to={`/film/${movie.id}`} className={styles.button} variant="contained" size="small" color="secondary">

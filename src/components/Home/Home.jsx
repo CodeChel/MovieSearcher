@@ -6,8 +6,9 @@ import MovieCard from './MovieCard/MovieCard'
 import Preloader from '../common/Preloader'
 import styles from './Home.module.scss'
 import InfiniteScroll from "react-infinite-scroll-component"
+import { getUser } from '../../redux/auth-selector'
 
-const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, currentPage, setMoviesThunk }) => {
+const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, currentPage, setMoviesThunk, user}) => {
 
 
     useEffect(() => {
@@ -27,7 +28,7 @@ const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, c
         scrollThreshold={0.95}
     >
         <div className={styles.container}>
-            {movies.map((movie, index) => <MovieCard styles={styles} key={index} movie={movie} />)}
+            {movies.map((movie, index) => <MovieCard user={user} styles={styles} key={index} movie={movie} />)}
         </div>
     </InfiniteScroll>
 }
@@ -41,7 +42,8 @@ const mapStateToProps = (state) => ({
     totalPages: getTotalPages(state),
     currentPage: getCurrentPage(state),
     totalResults: getTotalResults(state),
-    searchWord: getSearchWord(state)
+    searchWord: getSearchWord(state),
+    user: getUser(state)
 })
 
 export default connect(mapStateToProps, {
