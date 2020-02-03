@@ -142,7 +142,7 @@ export const loginWithGoogle = () => dispatch => {
     firebase.auth().signInWithPopup(provider)
         .then(result => {
             dispatch(receiveLogin(result.user))
-            console.log(firebase)
+            console.log(result.user)
 
         })
         .catch(error => {

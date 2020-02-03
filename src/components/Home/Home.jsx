@@ -7,8 +7,11 @@ import Preloader from '../common/Preloader'
 import styles from './Home.module.scss'
 import InfiniteScroll from "react-infinite-scroll-component"
 import { getUser } from '../../redux/auth-selector'
+import {getMoviesThunkF, addMovieThunk} from '../../redux/favorites-reducer'
+import {getMoviesFav} from '../../redux/favorites-selector'
 
-const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, currentPage, setMoviesThunk, user}) => {
+const Home = ({ movies, getMoviesThunkF, searchWord, setMMoviesThunk, 
+                 favorites, totalPages, currentPage, setMoviesThunk, user}) => {
 
 
     useEffect(() => {
@@ -17,7 +20,7 @@ const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, c
     const loadMoreMovies = () => {
         setMMoviesThunk(currentPage + 1)
     }
-
+   
     return <InfiniteScroll
 
         dataLength={movies.length}
@@ -28,7 +31,15 @@ const Home = ({ movies, totalResults, searchWord, setMMoviesThunk, totalPages, c
         scrollThreshold={0.95}
     >
         <div className={styles.container}>
-            {movies.map((movie, index) => <MovieCard user={user} styles={styles} key={index} movie={movie} />)}
+            {movies.map((movie, index) => <MovieCard 
+                                            getMoviesThunkF={getMoviesThunkF}  
+                                            user={user} 
+                                            styles={styles} 
+                                            key={index} 
+                                            movie={movie} 
+                                            favorites={favorites} 
+                                            addMovieThunk={addMovieThunk}
+                                            />)}
         </div>
     </InfiniteScroll>
 }
@@ -43,9 +54,10 @@ const mapStateToProps = (state) => ({
     currentPage: getCurrentPage(state),
     totalResults: getTotalResults(state),
     searchWord: getSearchWord(state),
-    user: getUser(state)
+    user: getUser(state),
+    favorites: getMoviesFav(state)
 })
 
 export default connect(mapStateToProps, {
-    setMoviesThunk, setMMoviesThunk
+    setMoviesThunk, setMMoviesThunk, getMoviesThunkF, addMovieThunk
 })(Home)

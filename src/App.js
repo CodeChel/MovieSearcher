@@ -12,6 +12,8 @@ import Home from './components/Home/Home.jsx'
 import Movie from './components/Movie/Movie'
 import { StylesProvider } from '@material-ui/core/styles'
 import {verifyAuth} from './redux/auth-reducer'
+import { getIsVerifying } from './redux/auth-selector'
+import Preloader from './components/common/Preloader'
 
 const App = (props) => {
   useEffect(()=>{
@@ -19,23 +21,27 @@ const App = (props) => {
   })
 
   return (
-    <>
-      <StylesProvider injectFirst>
-        <Header />
-        <Switch>
-          <Route exact path='/' render={() => <Home />} />
-          <Route path='/film/:filmId' render={() => <Movie />} />
-          <Route path='*' render={() => <div> 404 not found </div>} />
-        </Switch>
-      </StylesProvider>
-    </>
+    props.isVerifying 
+    ? <Preloader/>
+    : <>
+        <StylesProvider injectFirst>
+          <Header />
+          <Switch>
+            <Route exact path='/' render={() => <Home />} />
+            <Route path='/film/:filmId' render={() => <Movie />} />
+            <Route path='*' render={() => <div> 404 not found </div>} />
+          </Switch>
+        </StylesProvider>
+      </>
   )
 }
 
-
+const mapStateToProps = (state) => ({
+  isVerifying: getIsVerifying(state)
+})
 const AppContainer = compose(
   withRouter,
-  connect(null, {verifyAuth}))(App)
+  connect(mapStateToProps, {verifyAuth}))(App)
 
 
 const HightApp = () => {
