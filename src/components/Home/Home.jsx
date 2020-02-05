@@ -17,6 +17,7 @@ const Home = ({ movies, getMoviesThunkF, searchWord, setMMoviesThunk,
     useEffect(() => {
         setMoviesThunk()
     }, [setMoviesThunk, searchWord])
+    
     const loadMoreMovies = () => {
         setMMoviesThunk(currentPage + 1)
     }

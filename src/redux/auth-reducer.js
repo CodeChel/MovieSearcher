@@ -1,6 +1,6 @@
 
-import { myFirebase } from "../firebase/firebase"
 import firebase from 'firebase'
+import { getMoviesThunkF } from './favorites-reducer';
 
 export const LOGIN_REQUEST = "auth-reducer/LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "auth-reducer/LOGIN_SUCCESS";
@@ -134,7 +134,6 @@ const verifySuccess = () => {
 
 export const loginWithGoogle = () => dispatch => {
     dispatch(requestLogin())
-    console.log(myFirebase)
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('profile')
     provider.addScope('email')
@@ -142,7 +141,7 @@ export const loginWithGoogle = () => dispatch => {
     firebase.auth().signInWithPopup(provider)
         .then(result => {
             dispatch(receiveLogin(result.user))
-            console.log(result.user)
+            dispatch(getMoviesThunkF(firebase.auth().currentUser.uid))
 
         })
         .catch(error => {
@@ -170,6 +169,7 @@ export const verifyAuth = () => dispatch => {
         .onAuthStateChanged(user => {
             if (user !== null) {
                 dispatch(receiveLogin(user));
+                dispatch(getMoviesThunkF(firebase.auth().currentUser.uid))
             }
             dispatch(verifySuccess())
         })

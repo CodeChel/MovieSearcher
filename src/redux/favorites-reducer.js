@@ -2,9 +2,6 @@
 
 import { db } from '../firebase/firebase'
 import firebase from 'firebase'
-const databaseRef = db.ref()
-
-const usersFS = databaseRef.child('users');
 
 export const ADD_MOVIE_REQUEST = "favorites-reducer/ADD_MOVIE_REQUEST"
 export const ADD_MOVIE_SUCCESS = "favorites-reducer/ADD_MOVIE_SUCCESS"
@@ -20,7 +17,7 @@ export const GET_MOVIES_FAILURE = "favorites-reducer/GET_MOVIES_FAILURE"
 
 
 const initialState = {
-    movies: [],
+    movies: {},
     isAddingMovie: false,
     movieAddError: false,
     isDeletionMovie: false,
@@ -31,39 +28,7 @@ const initialState = {
 
 export const favoritesReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_MOVIE_REQUEST:
-            return {
-                ...state,
-                isAddingMovie: true
-            }
-        case ADD_MOVIE_SUCCESS:
-            return {
-                ...state,
-                movies: [
-                    ...state.movies,
-                    action.payload.movie
-                ]
-            }
-        case ADD_MOVIE_FAILURE:
-            return {
-                ...state,
-                movieAddError: true
-            }
-        case DELETE_MOVIE_REQUEST:
-            return {
-                ...state,
-                isDeletionMovie: true
-            }
-        case DELETE_MOVIE_SUCCESS:
-            return {
-                ...state,
-                movies: state.movies.filter(m => m !== action.payload.movie)
-            }
-        case DELETE_MOVIE_FAILURE:
-            return {
-                ...state,
-                isDeletionError: true
-            }
+
         case GET_MOVIES_REQUEST:
             return {
                 ...state,
@@ -100,27 +65,24 @@ export const deleteMovieError = () => ({ type: DELETE_MOVIE_FAILURE })
 
 
 export const getMoviesThunkF = (userId) => async (dispatch) => {
-
-    db.collection('users').doc(`${userId}/movies/`)
-    .onSnapshot( doc => {
+    const movies = db.collection('users').doc(`${userId}`).collection('movies').get()
+ 
+    .onSnapshot((doc)=>{
+        console.log(doc.data())
         dispatch(getMovies(doc.data()))
     })
-}
-
-export const addMovieThunk = (userId, movieId) => async (dispatch) => {
-        const user = firebase.auth().currentUser
-        if (user != null) {
-            const uid = user.uid
-            const doc = db.collection('users/').doc(`${uid}/movies/`)
-            const temp = doc.get().then(res => res.data())
-
-            if (temp) { //проверяем если есть уже закладки
-                doc.set(Object.assign({}, temp, { [movieId]: movieId }));  //добавляем новую закладку к существующим
-            } else {
-                doc.set({ [movieId]: movieId }) // добавляем новую закладку если их вапще нет
-            }
-        }
+   
     }
 
+export const addMovieThunk = (userId, movie) => {
+        db.collection('users').doc(`${userId}`).collection('movies')
+            .doc(`${movie.id}`).set({
+                title: movie.title,
+                id: movie.id,
+                poster_path: movie.poster_path,
+                atTime: Date.now()
+            })
 
-export default favoritesReducer
+    }
+
+    export default favoritesReducer

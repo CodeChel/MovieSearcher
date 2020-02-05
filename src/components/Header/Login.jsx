@@ -1,7 +1,6 @@
 
 import React from 'react'
 import googleIcon from '../../assets/img/google.svg'
-import { Button } from '@material-ui/core'
 import styles from './Login.module.scss'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -11,7 +10,7 @@ const Login = ({ user, loginWithGoogle, logoutUser }) => {
     const [anchorEl, setAnchorEl] = React.useState(null)
 
     const handleClick = e => {
-        setAnchorEl(e.currentTarget);
+        setAnchorEl(e.currentTarget)
     }
 
     const handleClose = () => {

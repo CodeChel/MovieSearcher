@@ -11,6 +11,10 @@
     ],
     "rewrites": [
       {
+        "source": "/myFunction", 
+        "function": "myFunction" 
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

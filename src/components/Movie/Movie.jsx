@@ -13,7 +13,7 @@ import { Typography, Button } from '@material-ui/core'
 import noPoster from '../../assets/img/no-poster.png'
 import { getUser } from '../../redux/auth-selector'
 
-const Movie = ({user, movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
+const Movie = ({ user, movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
 
     useEffect(() => {
         setMovieThunk(props.match.params.filmId)
@@ -30,8 +30,11 @@ const Movie = ({user, movie, isFetching, setMovieThunk, resetState, setSimMovieT
                         <img
                             src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
                             alt='poster' />
-                        <Button fullWidth={true} disabled={user===null}
-                            variant="contained" size="large" color="primary">Add to Favorites</Button>
+                        <Button fullWidth={true} 
+                                disabled={user === null}
+                                variant="contained" size="large" color="primary">
+                                Add to Favorites
+                        </Button>
                     </div>
                     <div className={styles.details}>
                         <Typography variant="h4" gutterBottom component="h4">
@@ -49,10 +52,10 @@ const Movie = ({user, movie, isFetching, setMovieThunk, resetState, setSimMovieT
                     <div className={styles.containerSimilar}>
                         <Typography variant="h4" gutterBottom component="h4">
                             Similar Movies
-                     </Typography>
+                        </Typography>
                         <div className={styles.movieList}>
 
-                            {similarMovies.slice(0, 10).map((movie, index) => {
+                            {similarMovies.slice(0, 10).map((movie) => {
                                 return <SimilarMovieCard styles={styles} movie={movie} key={movie.id} />
                             })}
                         </div>

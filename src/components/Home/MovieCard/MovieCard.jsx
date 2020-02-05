@@ -11,9 +11,7 @@ import noPoster from '../../../assets/img/no-poster.png'
 
 const MovieCard = ({ addMovieThunk, favorites, movie, styles, user, getMoviesThunkF }) => {
        
-    React.useEffect(()=>{
-        getMoviesThunkF(user.uId)
-    })
+
 
     return <Card className={styles.card}>
         
@@ -32,11 +30,11 @@ const MovieCard = ({ addMovieThunk, favorites, movie, styles, user, getMoviesThu
         </CardContent>
         <CardActions className={styles.cardActions}>
             { user !== null 
-                ? favorites.includes(movie.uId) 
-                    ? <Button onClick={()=>{}} disabled={user===null} className={styles.button} variant="contained" size="small" color="primary">
+                ? favorites[movie.id]
+                    ? <Button onClick={()=>{}}  className={styles.button} variant="contained" size="small" color="primary">
                         Remove from Favorites
                      </Button> 
-                    : <Button onClick={()=>{addMovieThunk(movie.id)}} disabled={user===null} className={styles.button} variant="contained" size="small" color="primary">
+                    : <Button onClick={()=>{addMovieThunk(user.uid, movie)}}  className={styles.button} variant="contained" size="small" color="primary">
                         Add to Favorites
                     </Button> 
                 : <Button  disabled className={styles.button} variant="contained" size="small" color="primary">

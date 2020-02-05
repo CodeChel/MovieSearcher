@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react'
-import logo from './logo.svg'
 import './App.css'
-import Button from '@material-ui/core/Button'
 import { connect, Provider } from 'react-redux'
 import { withRouter, HashRouter, Route, Redirect } from 'react-router-dom'
 import store from './redux/redux-store'
@@ -15,10 +13,10 @@ import {verifyAuth} from './redux/auth-reducer'
 import { getIsVerifying } from './redux/auth-selector'
 import Preloader from './components/common/Preloader'
 
-const App = (props) => {
+const App = ({verifyAuth, ...props}) => {
   useEffect(()=>{
-    props.verifyAuth()
-  })
+    verifyAuth()
+  },[verifyAuth])
 
   return (
     props.isVerifying 
