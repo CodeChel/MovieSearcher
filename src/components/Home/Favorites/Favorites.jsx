@@ -1,37 +1,23 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setMoviesThunk, setMMoviesThunk } from '../../redux/home-reducer'
-import { getMovies, getIsFetching, getTotalPages, getCurrentPage, getTotalResults, getSearchWord } from '../../redux/home-selector'
+import {  getIsFetching, getTotalPages, getCurrentPage, getTotalResults, getSearchWord } from '../../redux/home-selector'
 import MovieCard from './MovieCard/MovieCard'
 import Preloader from '../common/Preloader'
 import styles from './Home.module.scss'
-import InfiniteScroll from "react-infinite-scroll-component"
 import { getUser, getMoviesFB } from '../../redux/auth-selector'
+import { objIsEmpty } from '../../utils/utils'
 
-const Home = ({ movies, searchWord, setMMoviesThunk, addMovieFav, removeMovie,
-    totalPages, currentPage, setMoviesThunk, user, moviesF }) => {
+const Home = ({   user, moviesF }) => {
 
 
-    useEffect(() => {
-        setMoviesThunk()
-    }, [setMoviesThunk, searchWord])
-
-    const loadMoreMovies = () => {
-        setMMoviesThunk(currentPage + 1)
-    }
-
-    return <InfiniteScroll
-
-        dataLength={movies.length}
-        next={loadMoreMovies}
-        hasMore={totalPages > currentPage}
-        className={styles.scrollContainer}
-        loader={<Preloader size={60} />}
-        scrollThreshold={0.95}
-    >
-        <div className={styles.container}>
+      return  user === null
+      ?    <div> Please, login for adding movies to Favorites</div>
+      :    objIsEmpty 
+          ? <div>You haven’t added anything yet ..</div>
+          : <div className={styles.container}>
             {
-                movies.map(
+                moviesF.map(
                     movie => <MovieCard
                                         user={user}
                                         styles={styles}
@@ -41,14 +27,13 @@ const Home = ({ movies, searchWord, setMMoviesThunk, addMovieFav, removeMovie,
                     )
             }
         </div>
-    </InfiniteScroll>
+
 }
 
 
 
 
 const mapStateToProps = (state) => ({
-    movies: getMovies(state),
     isFetching: getIsFetching(state),
     totalPages: getTotalPages(state),
     currentPage: getCurrentPage(state),

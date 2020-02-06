@@ -5,3 +5,7 @@ export const getUser = (state) => {
 export const getIsVerifying = (state) => {
     return state.auth.isVerifying
 }
+
+export const getMoviesFB = (state) => {
+    return state.auth.movies
+}

@@ -1,18 +1,19 @@
 
 import firebase from 'firebase'
-import { getMoviesThunkF } from './favorites-reducer';
+import { db } from '../firebase/firebase'
 
-export const LOGIN_REQUEST = "auth-reducer/LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "auth-reducer/LOGIN_SUCCESS";
-export const LOGIN_FAILURE = "auth-reducer/LOGIN_FAILURE";
+export const LOGIN_REQUEST = "auth-reducer/LOGIN_REQUEST"
+export const LOGIN_SUCCESS = "auth-reducer/LOGIN_SUCCESS"
+export const LOGIN_FAILURE = "auth-reducer/LOGIN_FAILURE"
 
-export const LOGOUT_REQUEST = "auth-reducer/LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "auth-reducer/LOGOUT_SUCCESS";
-export const LOGOUT_FAILURE = "auth-reducer/LOGOUT_FAILURE";
+export const LOGOUT_REQUEST = "auth-reducer/LOGOUT_REQUEST"
+export const LOGOUT_SUCCESS = "auth-reducer/LOGOUT_SUCCESS"
+export const LOGOUT_FAILURE = "auth-reducer/LOGOUT_FAILURE"
 
-export const VERIFY_REQUEST = "auth-reducer/VERIFY_REQUEST";
-export const VERIFY_SUCCESS = "auth-reducer/VERIFY_SUCCESS";
+export const VERIFY_REQUEST = "auth-reducer/VERIFY_REQUEST"
+export const VERIFY_SUCCESS = "auth-reducer/VERIFY_SUCCESS"
 
+export const GET_MOVIES_SUCCESS = "auth-reducer/GET_MOVIES_SUCCESS"
 
 const initialState = {
     isLoggingIn: false,
@@ -21,7 +22,8 @@ const initialState = {
     loginError: false,
     logoutError: false,
     isAuthenticated: false,
-    user: null
+    user: null,
+    movies: {}
 }
 
 
@@ -77,11 +79,18 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 isVerifying: false
             }
+        case GET_MOVIES_SUCCESS:
+            return {
+                ...state,
+                movies: action.payload.movies
+            }
+
         default:
             return state;
     }
 }
 
+export const getMovies = (movies) => ({ type: GET_MOVIES_SUCCESS, payload: { movies } })
 
 const requestLogin = () => {
     return {
@@ -130,49 +139,114 @@ const verifySuccess = () => {
     return {
         type: VERIFY_SUCCESS
     };
-};
+}
 
-export const loginWithGoogle = () => dispatch => {
+
+
+export const loginWithGoogle = () => async dispatch => {
     dispatch(requestLogin())
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('profile')
     provider.addScope('email')
-
-    firebase.auth().signInWithPopup(provider)
-        .then(result => {
-            dispatch(receiveLogin(result.user))
-            dispatch(getMoviesThunkF(firebase.auth().currentUser.uid))
-
-        })
-        .catch(error => {
-            dispatch(loginError())
-        });
+    try {
+        const result = await firebase.auth().signInWithPopup(provider)
+        dispatch(receiveLogin(result.user))
+        await dispatch(getMoviesFavOnce())
+        dispatch(addMoviesListener())
+    } catch (error) {
+        dispatch(loginError())
+    }
 }
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = () => async dispatch => {
     dispatch(requestLogout())
-    firebase
-        .auth()
-        .signOut()
-        .then(() => {
-            dispatch(receiveLogout())
-        })
-        .catch(error => {
-            dispatch(logoutError())
-        });
-};
+    try {
+        await firebase.auth().signOut()
+        dispatch(receiveLogout())
+    } catch (error) {
+        dispatch(logoutError())
+    }
+}
 
-export const verifyAuth = () => dispatch => {
+export const verifyAuth = () => async dispatch => {
     dispatch(verifyRequest());
     firebase
         .auth()
-        .onAuthStateChanged(user => {
+        .onAuthStateChanged(async user => {
             if (user !== null) {
-                dispatch(receiveLogin(user));
-                dispatch(getMoviesThunkF(firebase.auth().currentUser.uid))
+                await dispatch(receiveLogin(user))
+                await dispatch(getMoviesFavOnce())
+                dispatch(addMoviesListener())
             }
             dispatch(verifySuccess())
         })
 }
+
+export const getMoviesFavOnce = () => async dispatch => {
+    const userId = firebase.auth().currentUser.uid
+    const moviesColl = db.collection('users').doc(`${userId}`).collection('movies')
+    const doc = await moviesColl.get()
+    const documents = {}
+
+    doc.forEach(doc => {
+        documents[doc.id] = doc.data()
+    })
+    dispatch(getMovies(documents))
+}
+export const addMoviesListener = () => dispatch => {
+    const userId = firebase.auth().currentUser.uid
+    const moviesColl = db.collection('users').doc(`${userId}`).collection('movies')
+
+
+    moviesColl.onSnapshot(async doc => {
+        const moviesDocs = await moviesColl.get()
+        const documents = {}
+
+        moviesDocs.forEach(doc => {
+            documents[doc.id] = doc.data()
+        })
+        dispatch(getMovies(documents))
+    })
+
+}
+export const addMovieFav = movie => async dispatch => {
+
+
+    
+
+    try {
+        await addFireBaseItem(movie)
+        dispatch(getMoviesFavOnce())
+    } catch (err) {
+        console.log(err)
+    }
+    
+    
+}
+export const deleteFirebaseItem = async movie => {
+    const userId = firebase.auth().currentUser.uid
+    await db.collection('users').doc(`${userId}`).collection('movies').doc(`${movie.id}`).delete()
+}
+export const addFireBaseItem = async movie => {
+    const userId = firebase.auth().currentUser.uid
+
+    await db.collection('users').doc(`${userId}`).collection('movies').doc(`${movie.id}`).set({
+        ...movie,
+        atTime: Date.now()
+    })
+}
+export const removeMovie = movie => async dispatch => {
+    
+
+    try {
+        await deleteFirebaseItem(movie)
+        dispatch(getMoviesFavOnce())
+    } catch (err) {
+        console.log(err)
+    }
+
+}
+
+
 
 export default authReducer

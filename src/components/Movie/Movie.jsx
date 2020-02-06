@@ -11,9 +11,11 @@ import TableDescription from './TableDescription'
 import SimilarMovieCard from './SimilarMovieCard'
 import { Typography, Button } from '@material-ui/core'
 import noPoster from '../../assets/img/no-poster.png'
-import { getUser } from '../../redux/auth-selector'
+import { getUser, getMoviesFB } from '../../redux/auth-selector'
+import { addMovieFav, removeMovie, deleteFirebaseItem, addFireBaseItem } from '../../redux/auth-reducer'
 
-const Movie = ({ user, movie, isFetching, setMovieThunk, resetState, setSimMovieThunk, similarMovies, ...props }) => {
+const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
+    setSimMovieThunk, similarMovies, addMovieFav, moviesF, removeMovie, ...props }) => {
 
     useEffect(() => {
         setMovieThunk(props.match.params.filmId)
@@ -21,6 +23,7 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState, setSimMovie
             resetState()
         }
     }, [setMovieThunk, props.match.params.filmId, resetState])
+
     return <Container maxWidth="lg">
         {isFetching
             ? <Preloader size={60} />
@@ -30,11 +33,21 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState, setSimMovie
                         <img
                             src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
                             alt='poster' />
-                        <Button fullWidth={true} 
-                                disabled={user === null}
-                                variant="contained" size="large" color="primary">
+                        {user !== null
+                            ? moviesF[movie.id]
+                                ? <Button fullWidth={true} onClick={()=>{deleteFirebaseItem(movie)}}
+                                    variant="contained" size="large" color='secondary'>
+                                    Remove from favorites
+                                  </Button>
+                                : <Button fullWidth={true} onClick={()=>{addFireBaseItem(movie)}}
+                                    variant="outlined" size="large" color="secondary">
+                                    Add to Favorites
+                                </Button>
+                            : <Button fullWidth={true} disabled alt='need login for favor list'
+                                variant="outlined" size="large" color="secondary">
                                 Add to Favorites
-                        </Button>
+                             </Button>
+                        }
                     </div>
                     <div className={styles.details}>
                         <Typography variant="h4" gutterBottom component="h4">
@@ -74,11 +87,12 @@ const mapStateToProps = (state) => ({
     movie: getMovie(state),
     isFetching: getIsFetching(state),
     similarMovies: getSM(state),
-    user: getUser(state)
+    user: getUser(state),
+    moviesF: getMoviesFB(state)
 })
 
 export default compose(
-    connect(mapStateToProps, { setMovieThunk, resetState }),
+    connect(mapStateToProps, { setMovieThunk, resetState, addMovieFav, removeMovie }),
     withRouter
 
 )(Movie)

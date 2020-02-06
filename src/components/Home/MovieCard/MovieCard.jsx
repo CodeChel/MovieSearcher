@@ -6,15 +6,16 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextTruncate from '../../common/TextTruncate'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import noPoster from '../../../assets/img/no-poster.png'
+import { deleteFirebaseItem, addFireBaseItem } from '../../../redux/auth-reducer'
 
-const MovieCard = ({ addMovieThunk, favorites, movie, styles, user, getMoviesThunkF }) => {
-       
+const MovieCard = ({ movie, styles, user, moviesF }) => {
+
 
 
     return <Card className={styles.card}>
-        
+
         <CardMedia
             className={styles.media}
             image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
@@ -22,29 +23,29 @@ const MovieCard = ({ addMovieThunk, favorites, movie, styles, user, getMoviesThu
         />
         <CardContent className={styles.content}>
             <Typography gutterBottom variant="h5" component="h2">
-                {movie.original_title }
+                {movie.original_title}
             </Typography>
             <Typography component="p">
                 <TextTruncate text={movie.overview} numberCut={300} />
             </Typography>
         </CardContent>
         <CardActions className={styles.cardActions}>
-            { user !== null 
-                ? favorites[movie.id]
-                    ? <Button onClick={()=>{}}  className={styles.button} variant="contained" size="small" color="primary">
+            {user !== null
+                ? moviesF[movie.id]
+                    ? <Button onClick={() => { deleteFirebaseItem(movie) }} className={styles.button} variant="contained" size="small" color="secondary">
                         Remove from Favorites
-                     </Button> 
-                    : <Button onClick={()=>{addMovieThunk(user.uid, movie)}}  className={styles.button} variant="contained" size="small" color="primary">
+                     </Button>
+                    : <Button onClick={() => { addFireBaseItem(movie) }} className={styles.button} variant="outlined" size="small" color="secondary">
                         Add to Favorites
-                    </Button> 
-                : <Button  disabled className={styles.button} variant="contained" size="small" color="primary">
+                    </Button>
+                : <Button disabled className={styles.button} variant="contained" size="small" color="secondary">
                     Add to Favorites
-                  </Button> 
+                  </Button>
             }
-            <Button component={NavLink}  to={`/film/${movie.id}`} className={styles.button} variant="contained" size="small" color="secondary">
-               Show details
+            <Button component={NavLink} to={`/film/${movie.id}`} className={styles.button} variant="contained" size="small" color="primary">
+                Show details
             </Button>
-           
+
         </CardActions>
     </Card>
 }

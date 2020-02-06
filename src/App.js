@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import './App.css'
 import { connect, Provider } from 'react-redux'
-import { withRouter, HashRouter, Route, Redirect } from 'react-router-dom'
+import { withRouter, HashRouter, Route } from 'react-router-dom'
 import store from './redux/redux-store'
 import { compose } from 'redux'
 import Header from './components/Header/Header'
