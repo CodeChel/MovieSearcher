@@ -34,15 +34,21 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
                             src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : noPoster}
                             alt='poster' />
                         {user !== null
-                            ? moviesF[movie.id]
-                                ? <Button fullWidth={true} onClick={()=>{deleteFirebaseItem(movie)}}
-                                    variant="contained" size="large" color='secondary'>
-                                    Remove from favorites
-                                  </Button>
-                                : <Button fullWidth={true} onClick={()=>{addFireBaseItem(movie)}}
-                                    variant="outlined" size="large" color="secondary">
-                                    Add to Favorites
-                                </Button>
+                            ? <div className={styles.buttonContainer}>
+                                {moviesF[movie.id]
+                                    ?
+                                    <Button fullWidth={true} onClick={() => { deleteFirebaseItem(movie) }}
+                                        variant="contained" size="large" color='secondary'>
+                                        Remove from favorites
+                                        </Button>
+
+                                    : <Button fullWidth={true} onClick={() => { addFireBaseItem(movie) }}
+                                        variant="outlined" size="large" color="secondary">
+                                        Add to Favorites
+                                    </Button>
+                                }
+                                </div>
+
                             : <Button fullWidth={true} disabled alt='need login for favor list'
                                 variant="outlined" size="large" color="secondary">
                                 Add to Favorites
@@ -50,7 +56,7 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
                         }
                     </div>
                     <div className={styles.details}>
-                        <Typography variant="h4" gutterBottom component="h4">
+                        <Typography variant="h4" gutterBottom component="h4" className={styles.movieName}> 
                             {movie.title}
                         </Typography>
                         <TableDescription movie={movie} />
@@ -63,7 +69,7 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
                 </div>
                 {similarMovies.length > 0 &&
                     <div className={styles.containerSimilar}>
-                        <Typography variant="h4" gutterBottom component="h4">
+                        <Typography className={styles.simillar} variant="h4" gutterBottom component="h4">
                             Similar Movies
                         </Typography>
                         <div className={styles.movieList}>

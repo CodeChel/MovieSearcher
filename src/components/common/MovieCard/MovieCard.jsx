@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import TextTruncate from '../../common/TextTruncate'
+import TextTruncate from '../TextTruncate'
 import { NavLink } from 'react-router-dom'
 import noPoster from '../../../assets/img/no-poster.png'
 import { deleteFirebaseItem, addFireBaseItem } from '../../../redux/auth-reducer'
@@ -32,17 +32,19 @@ const MovieCard = ({ movie, styles, user, moviesF }) => {
         <CardActions className={styles.cardActions}>
             {user !== null
                 ? moviesF[movie.id]
-                    ? <Button onClick={() => { deleteFirebaseItem(movie) }} className={styles.button} variant="contained" size="small" color="secondary">
-                        Remove from Favorites
-                     </Button>
-                    : <Button onClick={() => { addFireBaseItem(movie) }} className={styles.button} variant="outlined" size="small" color="secondary">
-                        Add to Favorites
-                    </Button>
-                : <Button disabled className={styles.button} variant="contained" size="small" color="secondary">
-                    Add to Favorites
+                    ? <Button  onClick={() => { deleteFirebaseItem(movie) }} className={styles.button} variant="contained" size="small" color="secondary">
+                            Remove from Favs
+                        </Button>
+
+                    : <Button  onClick={() => { addFireBaseItem(movie) }} className={styles.button} variant="outlined" size="small" color="secondary">
+                            Add to Favs
+                        </Button>
+
+                : <Button  disabled className={styles.button} variant="contained" size="small" color="secondary">
+                        Add to Favs
                   </Button>
             }
-            <Button component={NavLink} to={`/film/${movie.id}`} className={styles.button} variant="contained" size="small" color="primary">
+            <Button  component={NavLink} to={`/film/${movie.id}`} className={styles.button} variant="contained" size="small" color="primary">
                 Show details
             </Button>
 

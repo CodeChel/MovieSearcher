@@ -5,11 +5,7 @@
     overflow: hidden !important;
     align-items: center;
 }
-.scrollContainer{
- 
-    overflow: hidden !important;
 
-}
 .media{
     max-width: 100%;
     height: 500px;
@@ -20,8 +16,7 @@
     padding-bottom: 20px;
 }
 .content{
-    height: 300px;
-    
+    height: 300px;  
 }
 .button{
     a{
@@ -32,6 +27,11 @@
 }
 .cardActions{
     justify-content: space-around;
-
 }
-
+.containerText{
+    margin: 20px auto;
+    text-align: center;
+    .name{
+        color: #c51162;
+    }
+}

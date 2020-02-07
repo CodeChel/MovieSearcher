@@ -4,6 +4,7 @@ import googleIcon from '../../assets/img/google.svg'
 import styles from './Login.module.scss'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import { NavLink } from 'react-router-dom'
 
 const Login = ({ user, loginWithGoogle, logoutUser }) => {
 
@@ -43,7 +44,7 @@ const Login = ({ user, loginWithGoogle, logoutUser }) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose}>Favorites</MenuItem>
+                    <MenuItem component={NavLink} to={`/favorites`} onClick={handleClose}>Favorites</MenuItem>
                     <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
                 </Menu>
             </div>

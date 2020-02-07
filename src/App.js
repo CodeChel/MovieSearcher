@@ -12,6 +12,7 @@ import { StylesProvider } from '@material-ui/core/styles'
 import {verifyAuth} from './redux/auth-reducer'
 import { getIsVerifying } from './redux/auth-selector'
 import Preloader from './components/common/Preloader'
+import Favorites from './components/Favorites/Favorites'
 
 const App = ({verifyAuth, ...props}) => {
   useEffect(()=>{
@@ -27,6 +28,7 @@ const App = ({verifyAuth, ...props}) => {
           <Switch>
             <Route exact path='/' render={() => <Home />} />
             <Route path='/film/:filmId' render={() => <Movie />} />
+            <Route path='/favorites' render={() => <Favorites />} />
             <Route path='*' render={() => <div> 404 not found </div>} />
           </Switch>
         </StylesProvider>

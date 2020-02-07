@@ -206,21 +206,17 @@ export const addMoviesListener = () => dispatch => {
             documents[doc.id] = doc.data()
         })
         dispatch(getMovies(documents))
+        console.log(documents)
     })
 
 }
 export const addMovieFav = movie => async dispatch => {
-
-
-    
-
     try {
         await addFireBaseItem(movie)
         dispatch(getMoviesFavOnce())
     } catch (err) {
         console.log(err)
     }
-    
     
 }
 export const deleteFirebaseItem = async movie => {
@@ -232,7 +228,7 @@ export const addFireBaseItem = async movie => {
 
     await db.collection('users').doc(`${userId}`).collection('movies').doc(`${movie.id}`).set({
         ...movie,
-        atTime: Date.now()
+        atTime: firebase.firestore.Timestamp.fromDate(new Date())
     })
 }
 export const removeMovie = movie => async dispatch => {

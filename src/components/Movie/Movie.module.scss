@@ -8,9 +8,7 @@
 }
 .container{
     margin-top: 20px;
-    display: flex;
-    align-items: center;
-    
+    display: flex;    
 }
 .details{
     margin-left: 50px;
@@ -90,4 +88,22 @@
 }
 .cardActions{
     justify-content: space-around;
+}
+.buttonContainer{
+    min-height: 50px;
+}
+@media (max-width: 768px) { 
+    .container{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .movieName{
+        text-align: center;
+    }
+    .details{
+        margin-top: 20px;
+    }
+    .simillar{
+        text-align: center;
+    }
 }

@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setMoviesThunk, setMMoviesThunk } from '../../redux/home-reducer'
 import { getMovies, getIsFetching, getTotalPages, getCurrentPage, getTotalResults, getSearchWord } from '../../redux/home-selector'
-import MovieCard from './MovieCard/MovieCard'
+import MovieCard from '../common/MovieCard/MovieCard'
 import Preloader from '../common/Preloader'
 import styles from './Home.module.scss'
 import InfiniteScroll from "react-infinite-scroll-component"
 import { getUser, getMoviesFB } from '../../redux/auth-selector'
 
-const Home = ({ movies, searchWord, setMMoviesThunk, addMovieFav, removeMovie,
-    totalPages, currentPage, setMoviesThunk, user, moviesF }) => {
+const Home = ({ movies, searchWord, setMMoviesThunk, totalPages, 
+                currentPage, setMoviesThunk, user, moviesF }) => {
 
 
     useEffect(() => {
