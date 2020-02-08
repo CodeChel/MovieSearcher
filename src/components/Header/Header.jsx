@@ -9,6 +9,7 @@ import {setSearchWord} from '../../redux/home-reducer'
 import {loginWithGoogle, logoutUser} from '../../redux/auth-reducer'
 import { getUser } from '../../redux/auth-selector'
 import Login from './Login'
+import TuneIcon from '@material-ui/icons/Tune'
 
 const Header = ({setSearchWord, loginWithGoogle, user, logoutUser}) => {
    
@@ -17,6 +18,7 @@ const Header = ({setSearchWord, loginWithGoogle, user, logoutUser}) => {
         <Toolbar>
           <NavLink to='/'><span className={styles.homeLink}>MovieSearcher</span></NavLink>
           <Search setSearchWord={setSearchWord}/>
+          <TuneIcon className={styles.tune}/>
           <Login loginWithGoogle={loginWithGoogle} user={user} logoutUser={logoutUser}/>
         </Toolbar>
       </AppBar>
