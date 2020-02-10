@@ -1,14 +1,18 @@
-import {getMovie, getSimilarMovie} from '../api/TMDbAPI'
+import {getMovie, getSimilarMovie, getGenresList} from '../api/TMDbAPI'
 
 export const SET_MOVIE = 'movie-reducer/SET_MOVIE'
 export const SET_FETCHING = 'movie-reducer/SET_FETCHING'
 export const RESET = 'movie-reducer/RESET'
 export const SET_SIMILAR_MOVIES = 'movie-reducer/SET_SIMILAR_MOVIES'
+export const SET_GENRES_SUCCESS = 'movie-reducer/SET_GENRES_SUCCESS'
+export const GENRES_IS_FETCHING = 'movie-reducer/GENRES_IS_FETCHING'
 
 const initialState = {
     movie: null,
     isFetching: true,
-    similarMovies: []
+    similarMovies: [],
+    genres: [],
+    genresIsFetch: false
 }
 
  export const movieReducer = (state = initialState, action) => {
@@ -28,7 +32,17 @@ const initialState = {
                 return{
                     ...state,
                     similarMovies: action.payload.movies
-                }    
+                }
+            case SET_GENRES_SUCCESS:
+                return{
+                    ...state,
+                    genres: action.payload.genres
+                }
+            case GENRES_IS_FETCHING:
+                return{
+                    ...state,
+                    genresIsFetch: action.payload.isFetching
+                }             
             case  RESET:
                 return initialState
         default: return state;
@@ -36,10 +50,21 @@ const initialState = {
     }
 
 }
+export const setGenres = (genres) => ({type: SET_GENRES_SUCCESS, payload: {genres}})
+export const genresIsFetching = (isFetching) => ({type: GENRES_IS_FETCHING, payload: {isFetching}})
 export const setMovie = (movie) => ({type: SET_MOVIE, payload: {movie}})
 export const setFetching = (isFetching) => ({type: SET_FETCHING, payload: {isFetching}})
 export const resetState = () => ({type: RESET})
 export const setSimilarMovie = (movies) => ({type: SET_SIMILAR_MOVIES, payload: {movies}})
+
+
+export const getGenres = () => async dispatch =>{
+    dispatch(genresIsFetching(true))
+    const response = await getGenresList()
+    dispatch(setGenres(response.data['genres']))
+    dispatch(genresIsFetching(false))
+    
+}
 
 export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     dispatch(setFetching(true))
@@ -48,7 +73,7 @@ export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     
     if(response.status === 200) {
         dispatch(setMovie(response.data))
-        console.log(response.data)
+        console.log(response.data['genres'])
         const responseSimilar = await getSimilarMovie(movieId, language)
 
         if(responseSimilar.status === 200) {

@@ -9,3 +9,11 @@ export const getIsFetching = (state) => {
 export const getSM = (state) => {
     return state.moviePage.similarMovies
 }
+
+export const getGenresSelctor = (state) =>{
+    return state.moviePage.genres
+}
+
+export const getGenresIsFetch = (state) =>{
+    return state.moviePage.genresIsFetch
+}

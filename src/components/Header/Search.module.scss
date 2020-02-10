@@ -6,10 +6,8 @@
     background-color: rgba(255, 255, 255, 0.15);
     transition: .4s;
     &:hover{
-        background-color: rgba(255, 255, 255, 0.25);
-        
+        background-color: rgba(255, 255, 255, 0.25);  
     }
-
 }
 
 .searchIcon{
@@ -24,12 +22,9 @@
     transition: .3s;
     width: 80px;
     padding-left: 40px;
-
     &:focus{ 
-
         width: 200px ;
-    }
-    
+    }    
 }
 .inputRoot{
     color: inherit;
@@ -45,7 +40,5 @@
     position: absolute;
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    
+    justify-content: center;    
 }

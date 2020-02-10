@@ -1,0 +1,35 @@
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.chooseBtn{
+    margin-left: 15px;
+}
+.genres{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.checkboxContainer{
+    width: 30%;
+}
+.dialog{
+    width: 100%;
+}
+.options{
+    width: 100px;
+}
+.select{
+    width: 180px;
+}
+.dialogTitle{
+    margin-left: auto;
+    margin-right: auto;
+}
+.genresHeader{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 16px;
+}
