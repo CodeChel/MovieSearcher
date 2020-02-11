@@ -21,15 +21,26 @@
 .options{
     width: 100px;
 }
-.select{
-    width: 180px;
-}
+
 .dialogTitle{
     margin-left: auto;
     margin-right: auto;
 }
 .genresHeader{
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 16px;
+    margin-top: 10px;
+}
+.inputContainer{
+    width: 100px;
+    margin-left: 20px;
+}
+.formControl{
+    width: 180px;
+}
+.containerInput{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.switchContainer{
+    vertical-align: bottom;
 }
