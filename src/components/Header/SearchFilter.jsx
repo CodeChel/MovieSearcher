@@ -10,13 +10,13 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Input from '@material-ui/core/Input'
 import Preloader from '../common/Preloader'
-import { useFormik } from 'formik'
+import { useFormik, Formik, Form } from 'formik'
 
 const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
     const [open, setOpen] = React.useState(false)
     const [asc, setAsc] = React.useState(false)
 
-    
+
 
     React.useEffect(() => {
         open && getGenres()
@@ -27,13 +27,13 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
             filterSearch: 'popular',
             yearRelease: '',
             rating: '',
-            
+            byAscending: false
 
         },
         onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
+            alert(JSON.stringify(values, null, 2));
         },
-      });
+    });
 
     const handleOpen = () => {
         setOpen(true)
@@ -42,13 +42,9 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
     const handleClose = () => {
         setOpen(false)
     }
-    const handleSwitch = (e) => {
-        setAsc(e.target.checked)
-    }
-    const handleCheckbox = (e) =>{
-        
-    }
+
     return <>
+
         <Button onClick={handleOpen} variant="contained" size="small" color='secondary' className={styles.chooseBtn}>Choose movie</Button>
 
         <Dialog onBackdropClick={handleClose} maxWidth='md' fullWidth className={styles.dialog} disableBackdropClick disableEscapeKeyDown open={open} onClose={handleClose}>
@@ -57,69 +53,84 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                 genresIsFetch
                     ? <Preloader />
                     : <DialogContent>
-                        <form className={styles.form}>
-                            <div className={styles.containerInputs}>
-                                <FormControl className={styles.formControl}>
-                                    <InputLabel htmlFor="filterSearch">Sort by</InputLabel>
-                                    <Select
-                                        className={styles.select}
-                                        autoWidth={true}
-                                        native
-                                        input={<Input id="filterSearch" />}
-                                    >
-                                        <option value={'popular'}>Popular</option>
-                                        <option value={'average vote'}>Rating</option>
-                                        <option value={'release'}>Release date</option>
-                                    </Select>
-                                </FormControl>
-                                <FormControl className={styles.inputContainer}>
-                                    <InputLabel htmlFor="yearRelease">Year release</InputLabel>
-                                    <Input id='yearRelease' />
-                                </FormControl>
-                                <FormControl className={styles.inputContainer}>
-                                    <InputLabel htmlFor="rating">Rating</InputLabel>
-                                    <Input id='rating' />
-                                </FormControl>
-                                <FormControl className={styles.switchContainer}>
-                                    <label htmlFor="by ascending">By ascending</label>
-                                    <Switch
-                                        checked={asc}
-                                        onChange={handleSwitch}
-                                        value={'asc'}
-                                        label='By ascending'
-                                        id='by ascending'
-                                    />
-                                </FormControl>
+                        <Formik
+                            initialValues={{ filterSearch: '', rating: '', yearRelease: '', byAscending: '', genres: '' }}
 
+                            onSubmit={(values) => {
 
-                            </div>
-                            <FormControl >
-                                <Typography color={'textSecondary'} className={styles.genresHeader} variant='h6' >
-                                    Genres
-                                </Typography>
-                                <div className={styles.genres}>
-                                    {
-                                        genres.map(g => <FormControlLabel className={styles.checkboxContainer}
-                                            control={
-                                                <Checkbox onClick={handleCheckbox} value={g['id']} />
+                            }
+
+                            }
+                        >
+                            <Form className={styles.form}>
+                                <div className={styles.containerInputs}>
+                                    <FormControl className={styles.formControl}>
+                                        <InputLabel htmlFor="filterSearch">Sort by</InputLabel>
+                                        <Select
+                                            className={styles.select}
+                                            autoWidth={true}
+                                            native
+                                            input={<Input name="filterSearch" />}
+                                        >
+                                            <option value={'popular'}>Popular</option>
+                                            <option value={'average vote'}>Rating</option>
+                                            <option value={'release'}>Release date</option>
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl className={styles.inputContainer}>
+                                        <InputLabel htmlFor="yearRelease">Year release</InputLabel>
+                                        <Input name='yearRelease' id='yearRelease' />
+                                    </FormControl>
+                                    <FormControl className={styles.inputContainer}>
+                                        <InputLabel htmlFor="rating">Rating</InputLabel>
+                                        <Input id='rating' name='rating' />
+                                    </FormControl>
+                                    <FormControl className={styles.switchContainer}>
+                                        <FormControlLabel
+                                            label='By ascending'
+                                            control={<Switch
+                                                checked={asc}
+                                                onChange={}
+                                                value={'asc'}
+                                                id='byAscending'
+                                                name='byAscending'
+                                            />
                                             }
-                                            label={g['name']}
-                                        />)
-                                    }
+                                        />
+                                    </FormControl>
+
+
                                 </div>
-                            </FormControl>
-                        </form>
+                                <FormControl >
+                                    <Typography color={'textSecondary'} className={styles.genresHeader} variant='h6' >
+                                        Genres
+                                </Typography>
+                                    <div className={styles.genres}>
+                                        {
+                                            genres.map(g => <FormControlLabel className={styles.checkboxContainer}
+                                                control={
+                                                    <Checkbox name={g['name']} value={g['id']} />
+                                                }
+                                                label={g['name']}
+                                            />)
+                                        }
+                                    </div>
+                                </FormControl>
+                                <DialogActions>
+                                    <Button onClick={handleClose} color="primary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleClose} color="primary">
+                                        Ok
+                                    </Button>
+                                </DialogActions>
+                            </Form>
+                        </Formik>
+
                     </DialogContent>
             }
 
-            <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Cancel
-          </Button>
-                <Button onClick={handleClose} color="primary">
-                    Ok
-          </Button>
-            </DialogActions>
+
         </Dialog>
     </>
 }
