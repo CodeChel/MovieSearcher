@@ -47,7 +47,7 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                     : <DialogContent>
 
                         <Formik
-                            initialValues={{ filterSearch: 'popular', rating: '', yearRelease: '', byAscending: false, genres: [] }}
+                            initialValues={{ sort_by: 'popularity', vote_average: '', primary_release_year: '', asc: false, with_genres: [] }}
 
                             onSubmit={async values => {
                                 
@@ -59,32 +59,32 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                                 <Form className={styles.form}>
                                     <div className={styles.containerInputs}>
                                         <FormControl className={styles.formControl}>
-                                            <InputLabel id='filterSearch' >Sort by</InputLabel>
+                                            <InputLabel id='sort_by' >Sort by</InputLabel>
                                             <Select
-                                                name='filterSearch'
+                                                name='sort_by'
                                                 onChange={props.handleChange}
-                                                value={props.values.filterSearch}
+                                                value={props.values.sort_by}
                                             >
-                                                <MenuItem value={'popular'}>Popular</MenuItem>
-                                                <MenuItem value={'rating'}>Rating</MenuItem>
-                                                <MenuItem value={'release'}>Release date</MenuItem>
+                                                <MenuItem value={'popularity'}>Popular</MenuItem>
+                                                <MenuItem value={'vote_average'}>Rating</MenuItem>
+                                                <MenuItem value={'release_date'}>Release date</MenuItem>
                                             </Select>
                                         </FormControl>
                                         <FormControl className={styles.inputContainer}>
-                                            <InputLabel htmlFor="yearRelease" >Year release</InputLabel>
-                                            <Input name='yearRelease' value={props.values.yearRelease} onChange={props.handleChange} id='yearRelease' />
+                                            <InputLabel htmlFor="primary_release_year" >Year release</InputLabel>
+                                            <Input name='primary_release_year' value={props.values.primary_release_year} onChange={props.handleChange} id='primary_release_year' />
                                         </FormControl>
                                         <FormControl className={styles.inputContainer}>
-                                            <InputLabel htmlFor="rating">Rating</InputLabel>
-                                            <Input id='rating' value={props.values.rating} onChange={props.handleChange} name='rating' />
+                                            <InputLabel htmlFor="vote_average">Rating</InputLabel>
+                                            <Input id='vote_average' value={props.values.vote_average} onChange={props.handleChange} name='vote_average' />
                                         </FormControl>
                                         <FormControl className={styles.switchContainer}>
                                             <FormControlLabel
                                                 label='By ascending'
                                                 control={<Switch
                                                     checked={props.values.byAscending}
-                                                    id='byAscending'
-                                                    name='byAscending'
+                                                    id='asc'
+                                                    name='asc'
                                                     onChange={props.handleChange}
                                                 />
                                                 }
@@ -92,14 +92,14 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                                         </FormControl>
                                     </div>
                                     <FormControl >
-                                        <Typography color={'textSecondary'} className={styles.genresHeader} variant='h6' >
+                                        <Typography color='textSecondary' className={styles.genresHeader} variant='h6' >
                                             Genres
                                         </Typography>
                                         <div className={styles.genres}>
                                             {
                                                 genres.map(g => <FormControlLabel key={g['id']} className={styles.checkboxContainer}
                                                     control={
-                                                        <Checkbox type="checkbox" name='genres' value={g['id']} />
+                                                        <Checkbox type="checkbox" name='with_genres' value={g['id']} />
                                                     }
                                                     label={g['name']}
                                                 />)
