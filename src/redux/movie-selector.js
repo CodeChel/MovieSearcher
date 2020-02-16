@@ -17,3 +17,4 @@ export const getGenresSelctor = (state) =>{
 export const getGenresIsFetch = (state) =>{
     return state.moviePage.genresIsFetch
 }
+

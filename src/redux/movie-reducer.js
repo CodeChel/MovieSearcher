@@ -73,12 +73,10 @@ export const setMovieThunk = (movieId, language='en-US') => async(dispatch) =>{
     
     if(response.status === 200) {
         dispatch(setMovie(response.data))
-        console.log(response.data['genres'])
         const responseSimilar = await getSimilarMovie(movieId, language)
 
         if(responseSimilar.status === 200) {
             dispatch(setSimilarMovie(responseSimilar.data.results))
-            console.log(responseSimilar.data)
         }
         dispatch(setFetching(false))
     }

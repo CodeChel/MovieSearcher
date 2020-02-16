@@ -14,10 +14,9 @@ import Preloader from '../common/Preloader'
 import { Formik, Form } from 'formik'
 import Checkbox from '../common/Checkbox'
 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 
-const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
+const SearchFilter = ({ genresIsFetch, getGenres, genres, setSearchOptions, searchOptions }) => {
     const [open, setOpen] = React.useState(false)
 
 
@@ -47,11 +46,10 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                     : <DialogContent>
 
                         <Formik
-                            initialValues={{ sort_by: 'popularity', vote_average: '', primary_release_year: '', asc: false, with_genres: [] }}
+                            initialValues={{ ...searchOptions }}
 
                             onSubmit={async values => {
-                                
-                                alert(JSON.stringify(values, null, 2))
+                                setSearchOptions(values)
                                 handleClose(true)
                             }}
                         >
@@ -71,8 +69,8 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                                             </Select>
                                         </FormControl>
                                         <FormControl className={styles.inputContainer}>
-                                            <InputLabel htmlFor="primary_release_year" >Year release</InputLabel>
-                                            <Input name='primary_release_year' value={props.values.primary_release_year} onChange={props.handleChange} id='primary_release_year' />
+                                            <InputLabel htmlFor="year" >Year release</InputLabel>
+                                            <Input name='year' value={props.values.year} onChange={props.handleChange} id='year' />
                                         </FormControl>
                                         <FormControl className={styles.inputContainer}>
                                             <InputLabel htmlFor="vote_average">Rating</InputLabel>
@@ -82,7 +80,7 @@ const SearchFilter = ({ genresIsFetch, getGenres, genres }) => {
                                             <FormControlLabel
                                                 label='By ascending'
                                                 control={<Switch
-                                                    checked={props.values.byAscending}
+                                                    checked={props.values.asc}
                                                     id='asc'
                                                     name='asc'
                                                     onChange={props.handleChange}

@@ -17,3 +17,7 @@ export const getTotalResults = (state) => {
 export const getSearchWord = (state) => {
     return  state.home.searchWord
 }
+
+export const getSearchOptions = (state) =>{
+    return state.home.searchOptions
+}
