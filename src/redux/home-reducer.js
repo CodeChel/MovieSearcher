@@ -1,4 +1,4 @@
-import { getPopularMovies, getSearcMovies, getMovieDiscover } from '../api/TMDbAPI'
+import { getSearcMovies, getMovieDiscover, getGenresList } from '../api/TMDbAPI'
 
 export const SET_MOVIES = 'home-reducer/SET_MOVIES'
 export const SET_MORE_MOVIES = 'home-reducer/SET_MORE_MOVIES'
@@ -9,6 +9,8 @@ export const SET_CURRENT_PAGE = 'home-reducer/SET_CURRENT_PAGE'
 export const SET_TOTAL_RESULTS = 'home-reducer/SET_TOTAL_RESULTS'
 export const SET_SEARCH_WORD = 'home-reducer/SET_SEARCH_WORD'
 export const SET_SEARCH_OPTIONS = 'home-reducer/SET_SEARCH_OPTIONS'
+export const SET_GENRES_SUCCESS = 'home-reducer/SET_GENRES_SUCCESS'
+export const GENRES_IS_FETCHING = 'home-reducer/GENRES_IS_FETCHING'
 
 const initialState = {
     movies: [],
@@ -19,6 +21,8 @@ const initialState = {
         asc: false,
         vote_average: ''
     },
+    genres: [],
+    genresIsFetch: false,
     isFetching: false,
     totalPages: 1,
     currentPage: 1,
@@ -69,6 +73,16 @@ export const homeReducer = (state = initialState, action) => {
                 ...state,
                 searchOptions: { ...action.payload.options }
             }
+        case SET_GENRES_SUCCESS:
+            return {
+                ...state,
+                genres: action.payload.genres
+            }
+        case GENRES_IS_FETCHING:
+            return {
+                ...state,
+                genresIsFetch: action.payload.isFetching
+            }
         default: return state
 
     }
@@ -82,8 +96,10 @@ export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, payloa
 export const setTotalPage = (totalPages) => ({ type: SET_TOTAL_PAGES, payload: { totalPages } })
 export const setSearchWord = (searchWord) => ({ type: SET_SEARCH_WORD, payload: { searchWord } })
 export const setSearchOptions = (options) => ({ type: SET_SEARCH_OPTIONS, payload: { options } })
+export const setGenres = (genres) => ({type: SET_GENRES_SUCCESS, payload: {genres}})
+export const genresIsFetching = (isFetching) => ({type: GENRES_IS_FETCHING, payload: {isFetching}})
 
-export const setMoviesThunk = (page=1, language='en-US', options) => async (dispatch, getState) => {
+export const setMoviesThunk = (page = 1, language = 'en-US', options) => async (dispatch, getState) => {
     dispatch(setFetching(true))
 
     const searchWord = getState().home.searchWord.trim()
@@ -98,6 +114,12 @@ export const setMoviesThunk = (page=1, language='en-US', options) => async (disp
 
 }
 
-
+export const getGenres = () => async dispatch =>{
+    dispatch(genresIsFetching(true))
+    const response = await getGenresList()
+    dispatch(setGenres(response.data['genres']))
+    dispatch(genresIsFetching(false))
+    
+}
 
 export default homeReducer
