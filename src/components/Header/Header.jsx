@@ -32,8 +32,7 @@ const mapStateToProps = (state) => (
     user: getUser(state),
     genresIsFetch: getGenresIsFetch(state),
     genres: getGenresSelctor(state),
-    searchOptions: getSearchOptions(state)
-
+    searchOptions: getSearchOptions(state),
   }
 )
 

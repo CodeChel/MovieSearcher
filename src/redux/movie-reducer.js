@@ -38,7 +38,12 @@ const initialState = {
                 return{
                     ...state,
                     images: action.payload.images
-                }               
+                }
+            case IMAGES_IS_FETCH:
+                return{
+                    ...state,
+                    imagesIsFetch: action.payload.isFetching
+                }                   
             case  RESET:
                 return initialState
         default: return state;
@@ -58,7 +63,7 @@ export const setImagesThunk = movieId => async dispatch => {
     const response = await getImagesMovie(movieId)
 
     if(response.status === 200){
-        setImages(response.data.backdrops)
+        dispatch(setImages(response.data.backdrops))
     }
     dispatch(setImagesIsFetching(false))
 }

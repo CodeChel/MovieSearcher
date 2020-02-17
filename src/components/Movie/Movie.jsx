@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Preloader from '../common/Preloader'
 import styles from './Movie.module.scss'
-import { setMovieThunk, resetState } from '../../redux/movie-reducer'
-import { getMovie, getIsFetching, getSM } from '../../redux/movie-selector'
+import { setMovieThunk, resetState, setImagesThunk } from '../../redux/movie-reducer'
+import { getMovie, getIsFetching, getSM, getImages, getImagesIsFetch } from '../../redux/movie-selector'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Container from '@material-ui/core/Container'
@@ -13,16 +13,18 @@ import { Typography, Button } from '@material-ui/core'
 import noPoster from '../../assets/img/no-poster.png'
 import { getUser, getMoviesFB } from '../../redux/auth-selector'
 import { addMovieFav, removeMovie, deleteFirebaseItem, addFireBaseItem } from '../../redux/auth-reducer'
+import Gallery from './Gallery'
 
-const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
-    setSimMovieThunk, similarMovies, addMovieFav, moviesF, removeMovie, ...props }) => {
+const Movie = ({ user, movie, isFetching, setMovieThunk, resetState, 
+                setImagesThunk, images, imagesIsFetch,
+                 similarMovies,  moviesF,  match }) => {
 
     useEffect(() => {
-        setMovieThunk(props.match.params.filmId)
+        setMovieThunk(match.params.filmId)
         return () => {
             resetState()
         }
-    }, [setMovieThunk, props.match.params.filmId, resetState])
+    }, [setMovieThunk, match.params.filmId, resetState])
 
     return <Container maxWidth="lg">
         {isFetching
@@ -59,6 +61,7 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
                         <Typography variant="h4" gutterBottom component="h4" className={styles.movieName}> 
                             {movie.title}
                         </Typography>
+                        <Gallery id={movie.id} setImagesThunk={setImagesThunk} images={images} imagesIsFetch={imagesIsFetch} />
                         <TableDescription movie={movie} />
                         <div className={styles.overview}>
                             <Typography gutterBottom variant="body1">
@@ -94,11 +97,14 @@ const mapStateToProps = (state) => ({
     isFetching: getIsFetching(state),
     similarMovies: getSM(state),
     user: getUser(state),
-    moviesF: getMoviesFB(state)
+    moviesF: getMoviesFB(state),
+    images: getImages(state),
+    imagesIsFetch: getImagesIsFetch(state)
 })
 
 export default compose(
-    connect(mapStateToProps, { setMovieThunk, resetState, addMovieFav, removeMovie }),
+    connect(mapStateToProps, 
+        { setMovieThunk, resetState, addMovieFav, removeMovie, setImagesThunk }),
     withRouter
 
 )(Movie)
