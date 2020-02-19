@@ -24,18 +24,14 @@
     position: relative;
 }
 .btnPrev{
-    height: 45px;
-    width: 45px;
     position: absolute;
     left: 0;
-    top: calc(50% - 45px);
+    top: calc(50% - 40px);
     cursor: pointer;
     background-color: grey;
     opacity: .5;
 }
 .btnNext{
-    height: 45px;
-    width: 45px;
     position: absolute;
     right: 0;
     top: calc(50% - 45px);
