@@ -13,7 +13,7 @@ import { Typography, Button } from '@material-ui/core'
 import noPoster from '../../assets/img/no-poster.png'
 import { getUser, getMoviesFB } from '../../redux/auth-selector'
 import { addMovieFav, removeMovie, deleteFirebaseItem, addFireBaseItem } from '../../redux/auth-reducer'
-import Gallery from './Gallery'
+import GalleryPreview from './GalleryPreview'
 
 const Movie = ({ user, movie, isFetching, setMovieThunk, resetState, 
                 setImagesThunk, images, imagesIsFetch,
@@ -61,7 +61,7 @@ const Movie = ({ user, movie, isFetching, setMovieThunk, resetState,
                         <Typography variant="h4" gutterBottom component="h4" className={styles.movieName}> 
                             {movie.title}
                         </Typography>
-                        <Gallery id={movie.id} setImagesThunk={setImagesThunk} images={images} imagesIsFetch={imagesIsFetch} />
+                        <GalleryPreview id={movie.id} match={match} setImagesThunk={setImagesThunk} images={images} imagesIsFetch={imagesIsFetch} />
                         <TableDescription movie={movie} />
                         <div className={styles.overview}>
                             <Typography gutterBottom variant="body1">

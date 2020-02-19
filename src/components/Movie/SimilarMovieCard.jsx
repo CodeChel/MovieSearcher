@@ -6,7 +6,6 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import { Typography } from '@material-ui/core'
 import TextTruncate from '../common/TextTruncate'
-import { NavLink } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 
 
