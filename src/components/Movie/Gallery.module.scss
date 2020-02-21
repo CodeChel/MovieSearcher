@@ -4,7 +4,6 @@
     cursor: pointer;
 }
 .gallery{
-    max-width: 800px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -46,4 +45,26 @@
 .iconPrev{
     font-size: 40px;
     color: white;
+}
+.imgGallery{
+    font-weight: 700;
+    margin: 0;
+    margin-right: auto;
+}
+.headerGallery{
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+.galleryFull{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+.albumImg{
+    margin: 2px;
+    cursor: pointer;
+}
+.backBlock{
+    margin-top: 10px;
 }

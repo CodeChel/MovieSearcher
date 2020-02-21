@@ -27,7 +27,6 @@ export const getImagesMovie = (movieId) =>{
 
 export const getMovie = (movieId, language = 'en-US') => {
     return axios.get(`${baseURL}movie/${movieId}?api_key=${apiKey}&language=${language}`).then(res => res)
-
 }
 
 export const getSimilarMovie = (movieId, language = 'en-US') => {
